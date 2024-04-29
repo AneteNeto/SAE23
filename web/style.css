@@ -9,12 +9,14 @@ body {
 /* Header */
 h1 {
     text-align: center;
-    color: #333;
+    color:#34495e;
     margin-top: 50px;
     font-size: 36px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ombre portée sur le texte */
 }
-
+h2{
+    color: #34495e; /* couleur du texte "liste des etudiants*/
+}
 /* Container */
 .container {
     max-width: 800px;
@@ -22,7 +24,7 @@ h1 {
     padding: 20px;
 }
 
-/* Student Info */
+/* liste etudiants */
 .etudiant {
     background-color: #fff;
     border-radius: 10px;
@@ -41,7 +43,7 @@ h1 {
     margin: 10px 0;
 }
 
-/* Group Info */
+/* les groupes */
 #groupe-info {
     background-color: #fff;
     border-radius: 10px;
@@ -52,7 +54,7 @@ h1 {
 
 
 
-/* Button */
+/* boutton historique */
 button {
     background-color: #ff6f61;
     color: #fff;
@@ -82,4 +84,27 @@ button:hover {
 #langSelect option {
     background-color: #fff; /* Fond blanc pour les options */
     color: #ff6f61; /* pour les options */
+}
+
+#etudiant-info,
+#groupe-info {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#group-list {
+    padding: 0;
+    margin: 0;
+}
+
+#group-list li {
+    list-style-type: none;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+#group-list li span {
+    font-weight: bold;
+    color: #ff5733; /* Couleur du texte pour le nom du groupe */
 }

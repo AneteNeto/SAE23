@@ -1,4 +1,4 @@
-// translate.js
+// translate.js pour changer de langue
 document.addEventListener('DOMContentLoaded', function() {
     // Récupérer la langue sélectionnée par l'utilisateur
     var selectedLanguage = localStorage.getItem('language') ;

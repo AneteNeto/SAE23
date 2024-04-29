@@ -1,5 +1,6 @@
+//script pour traduire en anglais
 var translations = {
-    "student_info": "Student information",
+    "student_list": "Students list",
     "student_name": "Student name",
     "student_residence": "Primary residence",
     "student_secondary_residence": "Secondary residence",
