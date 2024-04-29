@@ -6,8 +6,8 @@
     <title>Ajouter un Étudiant</title>
 </head>
 <body>
-    <h1>Ajouter un Étudiant</h1>
-    <form action="process_add_student.php" method="POST">
+    <h1>Ajouter un étudiant</h1>
+    <form action="script_add_student.php" method="POST">
         <label for="nom">Nom :</label>
         <input type="text" id="nom" name="nom" required><br>
 
