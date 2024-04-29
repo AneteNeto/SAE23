@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+#etudiant-info,
+#groupe-info {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+#etudiant-info {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#etudiant-info h2,
+#groupe-info h2 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+#groupe-info {
+    text-align: center;
+}
+

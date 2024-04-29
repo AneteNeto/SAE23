@@ -1,38 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page d'accueil</title>
+    <title>Thermomètre des étudiants</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Thermomètres</h1>
-        
-        <div class="thermometres-collectifs">
-            <h2>Thermomètres collectifs</h2>
-            <?php
-            // Récupérer et afficher les données des thermomètres collectifs
-            
-            ?>
-            <div class="thermometre-collectif">
-                <h3>Température médiane</h3>
-                <p><?php // Afficher la température médiane ?></p>
-            </div>
-        </div>
-        
-        <div class="thermometres-individuels">
-            <h2>Thermomètres individuels</h2>
-            <?php
-            // Récupérer et afficher les données des thermomètres individuels
-            // Exemple : température présente de chaque étudiant
-            ?>
-            <div class="thermometre-individuel">
-                <h3>Nom de l'étudiant</h3>
-                <p><?php // Afficher la température présente ?></p>
-            </div>
-        </div>
+    <h1>Thermomètre des étudiants BUT1 R&T</h1>
+    <div id="etudiant-info">
+        <!-- Les données des étudiants seront affichées ici -->
     </div>
+    <div id="groupe-info">
+        <!-- La température médiane du groupe sera affichée ici -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
