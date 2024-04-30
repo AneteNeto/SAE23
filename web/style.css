@@ -10,8 +10,8 @@ body {
 h1 {
     text-align: center;
     color:#34495e;
-    margin-top: 50px;
-    font-size: 36px;
+    margin-top: 40px;
+    font-size: 34px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ombre portée sur le texte */
 }
 h2{

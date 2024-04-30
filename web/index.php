@@ -11,7 +11,8 @@
         <option value="fr">Français</option>
         <option value="en">English</option>
     </select>
-    <h1 data-translate="thermometer_title">Thermomètre des étudiants : BUT1 R&T</h1>
+    <h1 data-translate="thermometer_title">Thermomètre des étudiants : </h1>
+    <h1 data-translate="specialite">BUT1 R&T</h1>
     <div class="container">
     <form id="searchForm">
         <label for="cherche_nom" data-translate="nom">Nom:</label>
@@ -32,12 +33,24 @@
     </div>
     <!-- data -->
     <?php
-    $students = [
-        ['id' => 1, 'prenom' => 'Lina', 'nom' => 'EL AMRANI', 'groupe' => 'GB2'],
-        ['id' => 2, 'prenom' => 'Anete', 'nom' => 'NETO', 'groupe' => 'GB2'],
-        ['id' => 3, 'prenom' => 'Mame Diarra', 'nom' => 'WADE', 'groupe' => 'GB2'],
-        ['id' => 4, 'prenom' => 'Farah', 'nom' => 'ALKHALAF', 'groupe' => 'GB2']
-    ];
+    $students = [];
+    $SERVEUR="mysql_serv";
+    $LOGIN="adbneto";
+    $PASSW="adbneto-rt2023";
+    $BD="adbneto_05";
+
+
+$co=mysqli_connect($SERVEUR,$LOGIN,$PASSW,$BD)or die("Unable to connect");
+$query="SELECT * FROM Etudiant";
+$result=mysqli_query($co,$query) or die ("erreur dans la requete $query");
+while($row=mysqli_fetch_assoc($result)){
+    $students []=$row;
+
+}
+
+
+
+$result=mysqli_query($co,$query) or die ("erreur dans la requete $query");
     ?>
 
     <!-- Inclusion des scripts JavaScript pour la traduction et le changement de langue -->
@@ -56,10 +69,10 @@
     var groupe = document.getElementById('cherche_groupe').value.trim().toLowerCase();
     
     // filtrer les étudiants en fonction des critères de recherche
-    var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
-        var nomMatch = (nom === '' || student.nom.toLowerCase().includes(nom));
-        var prenomMatch = (prenom === '' || student.prenom.toLowerCase().includes(prenom));
-        var groupeMatch = (groupe === '' || student.groupe.toLowerCase().includes(groupe));
+    var filteredStudents = <?php echo json_encode($students); ?>.filter(function(students) {
+        var nomMatch = (nom === '' || students.Nom.toLowerCase().includes(nom));
+        var prenomMatch = (prenom === '' || students.Prenom.toLowerCase().includes(prenom));
+        var groupeMatch = (groupe === '' || students.groupe.toLowerCase().includes(groupe));
         
         return nomMatch && prenomMatch && groupeMatch;
     });
@@ -69,13 +82,13 @@
     searchResultsContainer.innerHTML = ''; // supprimer les resultats d'avant
     
     if (filteredStudents.length > 0) {
-    filteredStudents.forEach(function(student) {
+    filteredStudents.forEach(function(students) {
         var studentInfo = '<div class="etudiant">' +
             '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
-            '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.prenom + ' ' + student.nom + '</p>' +
-            '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>' +
-            '<button onclick="showHistory(' + student.id + ')" data-translate="voir_historique">Voir l\'historique</button>' +
-            '<div id="historique-' + student.id + '" style="display: none;">' +
+            '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + students.Prenom + ' ' + students.Nom + '</p>' +
+            '<p><strong data-translate="groupe2">Groupe:</strong> ' + students.groupe + '</p>' +
+            '<button onclick="showHistory(' + students.idE + ')" data-translate="voir_historique">Voir l\'historique</button>' +
+            '<div id="historique-' + students.idE + '" style="display: none;">' +
             '<!-- Contenu de l\'historique de l\'étudiant -->' +
             '<!-- afficher l\'historique des températures -->' +
             '</div>' +
