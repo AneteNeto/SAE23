@@ -34,5 +34,5 @@ function updateTranslations(language) {
    
 
 }
-
-this.document.getElementById('rechercher').onclick=function() {updateTranslations(selectedLanguage)};
+//pour que apres cliquer sur le boutton rechercher les resultats seront aussi traduits
+this.document.getElementById('rechercher').onclick=function() {updateTranslations(selectedLanguage)}; 
