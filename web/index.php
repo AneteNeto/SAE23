@@ -13,54 +13,80 @@
     </select>
     <h1 data-translate="thermometer_title">Thermomètre des étudiants : BUT1 R&T</h1>
     <div class="container">
-    <h2 data-translate="list_etudiants">Liste des étudiants</h2>
-    <!-- Affichage des informations de chaque étudiant -->
+    <form id="searchForm">
+        <label for="cherche_nom" data-translate="nom">Nom:</label>
+        <input type="text" id="cherche_nom" name="nom" placeholder="...">
+        
+        <label for="cherche_prenom" data-translate="prenom">Prénom:</label>
+        <input type="text" id="cherche_prenom" name="prenom" placeholder="...">
+
+        <label for="cherche_groupe" data-translate="groupe">Groupe:</label>
+        <input type="text" id="cherche_groupe" name="groupe" placeholder="...">
+        
+        <button  id="rechercher" type="submit" value="Rechercher" data-translate="rechercher"> Rechercher </button>
+    </form>
+
+    <div class="container" id="searchResults">
+        <!-- resultats -->
+    </div>
+    </div>
+    <!-- data -->
     <?php
-    // Connexion à la base de données et récupération des informations des étudiants
-    // interroger la base de données et récupérer les informations des étudiants
     $students = [
         ['id' => 1, 'prenom' => 'Lina', 'nom' => 'EL AMRANI', 'groupe' => 'GB2'],
         ['id' => 2, 'prenom' => 'Anete', 'nom' => 'NETO', 'groupe' => 'GB2'],
         ['id' => 3, 'prenom' => 'Mame Diarra', 'nom' => 'WADE', 'groupe' => 'GB2'],
         ['id' => 4, 'prenom' => 'Farah', 'nom' => 'ALKHALAF', 'groupe' => 'GB2']
     ];
-
-    foreach ($students as $student) {
-        $id = $student['id'];
-        $prenom = $student['prenom'];
-        $nom = $student['nom'];
-        $groupe = $student['groupe'];
     ?>
-    <div class="etudiant">
-        <p><strong data-translate="nom_etudiant">Nom de l'étudiant</strong>: <?php echo $prenom . ' ' . $nom; ?></p>
-        <p><strong data-translate="groupe_etudiant">Groupe</strong>: <?php echo $groupe; ?></p>
-        <button onclick="showHistory(<?php echo $id; ?>)" data-translate="voir_historique">Voir l'historique</button>
-        <div id="historique-<?php echo $id; ?>" style="display: none;">
-            <!-- Contenu de l'historique de l'étudiant -->
-            <!-- afficher l'historique des températures -->
-        </div>
-    </div>
-    <?php
-    }
-    ?>
-</div>
-
-        <div id="groupe-info">
-    <!-- Affichage de la température médiane du groupe sous forme de liste -->
-    <h2 data-translate="group_temperature">Température médiane du groupe</h2>
-    <ul id="group-list">
-        <li data-group="LK1">LK1: <span id="LK1-temperature"></span>°C</li>
-        <li data-group="LK2">LK2: <span id="LK2-temperature"></span>°C</li>
-        <li data-group="GB1">GB1: <span id="GB1-temperature"></span>°C</li>
-        <li data-group="GB2">GB2: <span id="GB2-temperature"></span>°C</li>
-    </ul>
-</div>
-    </div>
 
     <!-- Inclusion des scripts JavaScript pour la traduction et le changement de langue -->
     <script src="scripts/translations_fr.js"></script>
     <script src="scripts/translations_en.js"></script>
     <script src="scripts/translate.js"></script>
     <script src="scripts/language.js"></script>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission
+    
+    // récupérer les valeurs des champs de recherche
+    var nom = document.getElementById('cherche_nom').value.trim().toLowerCase();
+    var prenom = document.getElementById('cherche_prenom').value.trim().toLowerCase();
+    var groupe = document.getElementById('cherche_groupe').value.trim().toLowerCase();
+    
+    // filtrer les étudiants en fonction des critères de recherche
+    var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
+        var nomMatch = (nom === '' || student.nom.toLowerCase().includes(nom));
+        var prenomMatch = (prenom === '' || student.prenom.toLowerCase().includes(prenom));
+        var groupeMatch = (groupe === '' || student.groupe.toLowerCase().includes(groupe));
+        
+        return nomMatch && prenomMatch && groupeMatch;
+    });
+
+    // afficher les résultats de la recherche
+    var searchResultsContainer = document.getElementById('searchResults');
+    searchResultsContainer.innerHTML = ''; // clear previous results
+    
+    if (filteredStudents.length > 0) {
+    filteredStudents.forEach(function(student) {
+        var studentInfo = '<div class="etudiant">' +
+            '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
+            '<p><strong data-translate="nom2">Nom de l\'étudiant</strong>: ' + student.prenom + ' ' + student.nom + '</p>' +
+            '<p><strong data-translate="groupe2">Groupe</strong>: ' + student.groupe + '</p>' +
+            '<button onclick="showHistory(' + student.id + ')" data-translate="voir_historique">Voir l\'historique</button>' +
+            '<div id="historique-' + student.id + '" style="display: none;">' +
+            '<!-- Contenu de l\'historique de l\'étudiant -->' +
+            '<!-- afficher l\'historique des températures -->' +
+            '</div>' +
+            '</div>';
+        searchResultsContainer.innerHTML += studentInfo;
+    });
+} else {
+    searchResultsContainer.innerHTML = '<p data-translate="aucun_resultat">Aucun résultat trouvé.</p>';
+}
+});
+
+    </script>
 </body>
 </html>

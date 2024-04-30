@@ -1,18 +1,12 @@
-// translate.js pour changer de langue
 document.addEventListener('DOMContentLoaded', function() {
-    // Récupérer la langue sélectionnée par l'utilisateur
-    var selectedLanguage = localStorage.getItem('language') ;
-    var translationFile = 'scripts/translations_' + selectedLanguage + '.js';
-
-    // Fonction pour charger le fichier de traduction
-    function loadTranslationFile(translationFile) {
+    // charger le fichier de traductions
+    function loadTranslationFile(lang) {
         return new Promise(function(resolve, reject) {
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', translationFile);
+            xhr.open('GET', 'scripts/translations_' + lang + '.js');
             xhr.onload = function() {
                 if (xhr.status === 200) {
-                    var translations = JSON.parse(xhr.responseText);
-                    resolve(translations);
+                    resolve(JSON.parse(xhr.responseText));
                 } else {
                     reject();
                 }
@@ -24,8 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Fonction pour traduire les éléments de la page
-    function translatePage(translations) {
+    // traduire les elements
+    function translateElements(translations) {
         var elements = document.querySelectorAll('[data-translate]');
         elements.forEach(function(element) {
             var key = element.getAttribute('data-translate');
@@ -35,12 +29,32 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Charger le fichier de traduction et traduire la page
-    loadTranslationFile(translationFile)
+   
+
+    // Load translation file based on selected language
+    var langSelect = document.getElementById('langSelect');
+    langSelect.addEventListener('change', function() {
+        var selectedLanguage = langSelect.value;
+        loadTranslationFile(selectedLanguage)
+            .then(function(translations) {
+                translateElements(translations);
+                translatePlaceholders(translations);
+            })
+            .catch(function() {
+                console.error('Error loading translation file.');
+            });
+    });
+    
+
+    // charger le fichier de traduction
+    var defaultLanguage = langSelect.value; // language de defaut est selectionné
+    loadTranslationFile(defaultLanguage)
         .then(function(translations) {
-            translatePage(translations);
+            translateElements(translations);
+            translatePlaceholders(translations);
         })
         .catch(function() {
-            console.error('Erreur lors du chargement du fichier de traduction');
+            console.error('Error loading translation file.');
         });
+       
 });
