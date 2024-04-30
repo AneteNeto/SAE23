@@ -1,9 +1,14 @@
 // language.js
+var selectedLanguage;
+
 document.getElementById('langSelect').addEventListener('change', function() {
-    var selectedLanguage = this.value;
+    selectedLanguage = this.value;
     localStorage.setItem('language', selectedLanguage);
     updateTranslations(selectedLanguage); // Mettre à jour les traductions sur la page
+   
 });
+
+
 
 // Fonction pour mettre à jour les traductions sur la page
 function updateTranslations(language) {
@@ -25,4 +30,9 @@ function updateTranslations(language) {
         console.error('Erreur lors du chargement du fichier de traduction');
     };
     document.head.appendChild(scriptElement);
+
+   
+
 }
+
+this.document.getElementById('rechercher').onclick=function() {updateTranslations(selectedLanguage)};
