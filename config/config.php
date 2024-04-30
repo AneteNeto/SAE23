@@ -3,8 +3,8 @@
     /**
      * Open weather map
      */
-    const CONF__API_KEY = "bc6c4dbdd8355327830016c12370d05e";
-    const CONF__API_URL= "http://api.openweathermap.org/data/2.5/weather";
+    const CONF_API_KEY = "bc6c4dbdd8355327830016c12370d05e";
+    const CONF_API_URL= "http://api.openweathermap.org/data/2.5/weather";
 
     /** 
      * DATABASE
