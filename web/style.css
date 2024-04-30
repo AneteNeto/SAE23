@@ -1,23 +1,22 @@
-/* Vos styles CSS existants */
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #ffffff; /* Couleur de fond */
-    
+    background-color: #ffffff; /* Fallback color */
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%); /* Gradient background */
     background-size: cover;
 }
 
 h1 {
     text-align: center;
-    color:#34495e;
+    color: #34495e;
     margin-top: 40px;
     font-size: 34px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ombre portée sur le texte */
 }
 
-h2{
+h2 {
     color: #34495e; /* couleur du texte "liste des etudiants*/
 }
 
@@ -114,34 +113,40 @@ button:hover {
     font-weight: bold;
     color: #ff5733; /* Couleur du texte pour le nom du groupe */
 }
+
 /* Styles pour le formulaire de recherche */
 
-
+#searchForm {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Fond semi-transparent */
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
 #searchForm label {
-    
-    
     color: #34495e; /* Couleur du texte pour les libellés */
+    font-weight: bold;
 }
 
 #searchForm input[type="text"] {
     border-radius: 5px;
     border: 1px solid #ccc;
-   
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
 #searchForm button {
     background-color: #ff6f61;
     color: #fff;
     border: none;
-    padding: 10px 10px;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 14px;
     transition: background-color 0.3s ease; /* Animation de transition */
 }
 
 #searchForm button:hover {
     background-color: #ff403d;
 }
-
