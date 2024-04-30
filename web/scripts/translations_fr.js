@@ -1,12 +1,13 @@
 //script pour traduire en francais
 var translations = {
-    "student_list": "Liste des étudiants",
-    "student_name": "Nom de l'étudiant",
-    "student_residence": "Résidence principale",
-    "student_secondary_residence": "Résidence secondaire",
-    "student_temperature": "Température actuelle",
+    "list_etudiants": "Liste des étudiants",
+    "nom_etudiant": "Nom de l'étudiant",
+    "residence": "Résidence principale",
+    "residence_secondaire": "Résidence secondaire",
+    "temperature": "Température actuelle",
     "group_temperature": "Température médiane du groupe",
     "median_temperature": "Température actuelle",
     "thermometer_title": "Thermomètre des étudiants : BUT1 R&T",
-    "student_group": "Groupe"
+    "groupe_etudiant": "Groupe",
+    "voir_historique": "Voir l'historique"
 };

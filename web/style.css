@@ -1,4 +1,4 @@
-/* Body */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -6,7 +6,7 @@ body {
     background-color: #f9f9f9; /* Couleur de fond */
 }
 
-/* Header */
+
 h1 {
     text-align: center;
     color:#34495e;
@@ -79,6 +79,9 @@ button:hover {
     color: #fff; /* Texte blanc */
     cursor: pointer;
     border: none;
+}
+#langSelect:hover{
+    background-color: #ff403d;
 }
 
 #langSelect option {

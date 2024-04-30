@@ -13,7 +13,7 @@
     </select>
     <h1 data-translate="thermometer_title">Thermomètre des étudiants : BUT1 R&T</h1>
     <div class="container">
-    <h2 data-translate="student_list">Liste des étudiants</h2>
+    <h2 data-translate="list_etudiants">Liste des étudiants</h2>
     <!-- Affichage des informations de chaque étudiant -->
     <?php
     // Connexion à la base de données et récupération des informations des étudiants
@@ -32,9 +32,9 @@
         $groupe = $student['groupe'];
     ?>
     <div class="etudiant">
-        <p><strong data-translate="student_name">Nom de l'étudiant</strong>: <?php echo $prenom . ' ' . $nom; ?></p>
-        <p><strong data-translate="student_group">Groupe</strong>: <?php echo $groupe; ?></p>
-        <button onclick="showHistory(<?php echo $id; ?>)">Voir l'historique</button>
+        <p><strong data-translate="nom_etudiant">Nom de l'étudiant</strong>: <?php echo $prenom . ' ' . $nom; ?></p>
+        <p><strong data-translate="groupe_etudiant">Groupe</strong>: <?php echo $groupe; ?></p>
+        <button onclick="showHistory(<?php echo $id; ?>)" data-translate="voir_historique">Voir l'historique</button>
         <div id="historique-<?php echo $id; ?>" style="display: none;">
             <!-- Contenu de l'historique de l'étudiant -->
             <!-- afficher l'historique des températures -->
