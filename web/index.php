@@ -32,12 +32,23 @@
     </div>
     <!-- data -->
     <?php
-    $students = [
-        ['id' => 1, 'prenom' => 'Lina', 'nom' => 'EL AMRANI', 'groupe' => 'GB2'],
-        ['id' => 2, 'prenom' => 'Anete', 'nom' => 'NETO', 'groupe' => 'GB2'],
-        ['id' => 3, 'prenom' => 'Mame Diarra', 'nom' => 'WADE', 'groupe' => 'GB2'],
-        ['id' => 4, 'prenom' => 'Farah', 'nom' => 'ALKHALAF', 'groupe' => 'GB2']
-    ];
+    $students = [];
+    $SERVEUR="mysql_serv";
+    $LOGIN="adbneto";
+    $PASSW="adbneto-rt2023";
+    $BD="adbneto_05";
+		
+		 
+$co=mysqli_connect($SERVEUR,$LOGIN,$PASSW,$BD)or die("Unable to connect");
+$query="SELECT * FROM Etudiant";
+
+while($row=mysqli_fetch_assoc($result)){
+    $students[]=$row;
+}
+
+
+
+$result=mysqli_query($co,$query) or die ("erreur dans la requete $query");
     ?>
 
     <!-- Inclusion des scripts JavaScript pour la traduction et le changement de langue -->

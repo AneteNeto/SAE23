@@ -6,7 +6,7 @@ namespace Source\Models;
 use Source\Core\Model;
 
 /**
- *
+ * Class Etudiant
  */
 class Etudiant extends Model
 {
@@ -19,25 +19,15 @@ class Etudiant extends Model
     }
 
     /**
-     * @param string $slug
+     * @param string $nom
+     * @param string $prenom
      * @param string $columns
-     * @return Person|null
+     * @return Etudiant|null
      */
-    public function findByNomPrenom(string $nom,string $prenom, string $columns = '*'): ?Etudiant
+    public function findByName(string $nom,string $prenom, string $columns = '*'): ?Etudiant
     {
-        //return $this->find('slug = :s', "s={$slug}", $columns)->fetch();
-        return $this->find(“Nom = :nom AND Prenom = :prenom”, “nom={$nom}& prenom={$prenom}”, $columns)->fetch();
+        return $this->find('Nom = :n AND Prenom=:p', "n={$nom}&p={$prenom}", $columns)->fetch();
     }
-
-
-
-
-
-
-
-
-
-
 
     /**
      * @return bool
@@ -72,18 +62,5 @@ class Etudiant extends Model
         }
 
         return parent::save();
-    }
-
-    /**
-     * @param array $data
-     * @return array
-     */
-    public static function filter(array $data): array
-    {
-        $filter = [];
-        foreach ($data as $key => $value) {
-            $filter[$key] = (!is_null($value) ? filter_var($value, FILTER_SANITIZE_STRIPPED) : null);
-        }
-        return $filter;
     }
 }
