@@ -66,14 +66,14 @@
 
     // afficher les résultats de la recherche
     var searchResultsContainer = document.getElementById('searchResults');
-    searchResultsContainer.innerHTML = ''; // clear previous results
+    searchResultsContainer.innerHTML = ''; // supprimer les resultats d'avant
     
     if (filteredStudents.length > 0) {
     filteredStudents.forEach(function(student) {
         var studentInfo = '<div class="etudiant">' +
             '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
-            '<p><strong data-translate="nom2">Nom de l\'étudiant</strong>: ' + student.prenom + ' ' + student.nom + '</p>' +
-            '<p><strong data-translate="groupe2">Groupe</strong>: ' + student.groupe + '</p>' +
+            '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.prenom + ' ' + student.nom + '</p>' +
+            '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>' +
             '<button onclick="showHistory(' + student.id + ')" data-translate="voir_historique">Voir l\'historique</button>' +
             '<div id="historique-' + student.id + '" style="display: none;">' +
             '<!-- Contenu de l\'historique de l\'étudiant -->' +
