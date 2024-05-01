@@ -131,23 +131,43 @@
         });
 
         function showHistory(studentId) {
-            var historiqueContainer = document.getElementById('historique-' + studentId);
-            // Simulation de l'historique des données pour l'étudiant correspondant à studentId
-            var historiqueData = [
-                { ville: "Ville primaire", temperature: 20, vitesseVent: 10 },
-                { ville: "Ville secondaire", temperature: 18, vitesseVent: 8 }
-            ];
-            var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
-            historiqueData.forEach(function(data, index) {
-                historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
-                historiqueHTML += '<p><strong>' + data.ville + ':</strong> <span data-translate="temperature">Température:</span> ' + data.temperature + '°C, <span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.vitesseVent + ' km/h</p>';
-                historiqueHTML += '</div>';
-            });
-            // Afficher l'historique dans le conteneur
-            historiqueContainer.innerHTML = historiqueHTML;
-            // Afficher le conteneur d'historique s'il est caché
-            historiqueContainer.style.display = 'block';
-        }
+    var historiqueContainer = document.getElementById('historique-' + studentId);
+    
+    // Simulation de l'historique des données pour l'étudiant correspondant à studentId
+    // on doit remplacer cette simulation par une requête base de données
+
+    var historiqueData = [
+        { date: "2024-04-22", ville1: { temperature: 20, vitesseVent: 10 }, ville2: { temperature: 18, vitesseVent: 8 } },
+        { date: "2024-04-23", ville1: { temperature: 21, vitesseVent: 11 }, ville2: { temperature: 19, vitesseVent: 9 } },
+        { date: "2024-04-24", ville1: { temperature: 22, vitesseVent: 12 }, ville2: { temperature: 20, vitesseVent: 10 } },
+        { date: "2024-04-25", ville1: { temperature: 23, vitesseVent: 13 }, ville2: { temperature: 21, vitesseVent: 11 } },
+        { date: "2024-04-26", ville1: { temperature: 24, vitesseVent: 14 }, ville2: { temperature: 22, vitesseVent: 12 } },
+        { date: "2024-04-27", ville1: { temperature: 25, vitesseVent: 15 }, ville2: { temperature: 23, vitesseVent: 13 } },
+        { date: "2024-04-28", ville1: { temperature: 26, vitesseVent: 16 }, ville2: { temperature: 24, vitesseVent: 14 } }
+    ];
+
+    var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
+    historiqueData.forEach(function(data, index) {
+        historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
+        historiqueHTML += '<p><strong>' + data.date + ':</strong> ' +
+            '<span data-translate="temperature">Température:</span> ' + data.ville1.temperature + '°C, ' +
+            '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.ville1.vitesseVent + ' km/h' +
+            ' (Ville primaire)' +
+            '</p>';
+        historiqueHTML += '<p><strong>' + data.date + ':</strong> ' +
+            '<span data-translate="temperature">Température:</span> ' + data.ville2.temperature + '°C, ' +
+            '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.ville2.vitesseVent + ' km/h' +
+            ' (Ville secondaire)' +
+            '</p>';
+        historiqueHTML += '</div>';
+    });
+
+    // Afficher l'historique dans le conteneur
+    historiqueContainer.innerHTML = historiqueHTML;
+
+    // Afficher le conteneur d'historique s'il est caché
+    historiqueContainer.style.display = 'block';
+}
     </script>
 </body>
 </html>
