@@ -121,12 +121,20 @@
                 return sorted[middle];
             }
         }
-
+        // Fonction pour alterner l'affichage de l'historique
+        function toggleHistory(studentId) {
+            var historiqueContainer = document.getElementById('historique-' + studentId);
+            if (historiqueContainer.style.display === 'block') {
+                historiqueContainer.style.display = 'none';
+            } else {
+                showHistory(studentId);
+            }
+        }
         // Ajouter un écouteur d'événements pour les boutons "Voir l'historique"
         document.addEventListener('click', function(event) {
             if (event.target.classList.contains('voir-historique')) {
                 var studentId = event.target.getAttribute('data-student-id');
-                showHistory(studentId);
+                toggleHistory(studentId); // Appeler la fonction toggleHistory au lieu de showHistory
             }
         });
 
