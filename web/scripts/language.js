@@ -36,3 +36,9 @@ function updateTranslations(language) {
 }
 //pour que apres cliquer sur le boutton rechercher les resultats seront aussi traduits
 this.document.getElementById('rechercher').onclick=function() {updateTranslations(selectedLanguage)}; 
+//meme chose pour boutton voir historique
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('voir-historique')) {
+        updateTranslations(selectedLanguage);
+    }
+});
