@@ -65,62 +65,61 @@
     <script src="scripts/language.js"></script>
 
     <script>
-           document.getElementById('searchForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission
-            // Récupérer les valeurs des champs de recherche
-            var nom = document.getElementById('cherche_nom').value.trim().toLowerCase();
-            var prenom = document.getElementById('cherche_prenom').value.trim().toLowerCase();
-            var groupe = document.getElementById('cherche_groupe').value.trim().toLowerCase();
-            // Filtrer les étudiants en fonction des critères de recherche
-            var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
-                var nomMatch = (nom === '' || student.Nom.toLowerCase().includes(nom));
-                var prenomMatch = (prenom === '' || student.Prenom.toLowerCase().includes(prenom));
-                var groupeMatch = (groupe === '' || student.groupe.toLowerCase().includes(groupe));
-                return nomMatch && prenomMatch && groupeMatch;
-            });
-            // Afficher les résultats de la recherche
-            var searchResultsContainer = document.getElementById('searchResults');
-            searchResultsContainer.innerHTML = ''; // Supprimer les résultats précédents
-            if (filteredStudents.length > 0) {
-                filteredStudents.forEach(function(student) {
-                    var studentInfo = '<div class="etudiant">' +
-                        '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
-                        '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.Prenom + ' ' + student.Nom + '</p>' +
-                        '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>' +
-                        '<button id="historique" class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>' +
-                        '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;">' +
-                        '<!-- Contenu de l\'historique de l\'étudiant -->' +
-                        '</div>' +
-                        '</div>';
-                    searchResultsContainer.innerHTML += studentInfo;
-                });
-                // Afficher la médiane uniquement s'il y a des résultats de recherche
-                document.getElementById('medianContainer').style.display = 'block';
-                updateMedianTemperature(filteredStudents); // Calculer la médiane pour le groupe filtré
-            } else {
-                searchResultsContainer.innerHTML = '<p data-translate="aucun_resultat">Aucun résultat trouvé.</p>';
-                document.getElementById('medianContainer').style.display = 'none'; // Cacher la médiane s'il n'y a pas de résultat
-            }
+      
+      
+      /***     Cette partie du script gère la soumission du formulaire de recherche.
+        Récupèrer les valeurs des champs de recherche, filtre les étudiants en fonction des critères de recherche,
+        Afficher les résultats dans le conteneur   ***/ 
+
+    // Ajouter un event listenr pour soumettre le formulaire de recherche
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Empêcher la soumission du formulaire
+
+    // Récupérer les valeurs des champs de recherche et les convertir en minuscules
+    var nom = document.getElementById('cherche_nom').value.trim().toLowerCase();
+    var prenom = document.getElementById('cherche_prenom').value.trim().toLowerCase();
+    var groupe = document.getElementById('cherche_groupe').value.trim().toLowerCase();
+
+    // Filtrer les étudiants en fonction des critères de recherche
+    var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
+        var nomMatch = (nom === '' || student.Nom.toLowerCase().includes(nom));
+        var prenomMatch = (prenom === '' || student.Prenom.toLowerCase().includes(prenom));
+        var groupeMatch = (groupe === '' || student.groupe.toLowerCase().includes(groupe));
+        return nomMatch && prenomMatch && groupeMatch;
+    });
+
+    // Afficher les résultats de la recherche
+    var searchResultsContainer = document.getElementById('searchResults');
+    searchResultsContainer.innerHTML = ''; // Supprimer les résultats précédents
+    if (filteredStudents.length > 0) {
+        // Afficher les informations des étudiants filtrés
+        filteredStudents.forEach(function(student) {
+            var studentInfo = '<div class="etudiant">' +
+            '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
+            '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.Prenom + ' ' + student.Nom + '</p>' +
+            '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>' +
+            '<button id="historique" class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>' +
+            '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;">' +
+            '<!-- Contenu de l\'historique de l\'étudiant -->' +
+            '</div>' +
+            '</div>';
+            searchResultsContainer.innerHTML += studentInfo;
         });
+        // Afficher la médiane uniquement s'il y a des résultats de recherche
+        document.getElementById('medianContainer').style.display = 'block';
+        updateMedianTemperature(filteredStudents); // Calculer la médiane pour le groupe filtré
+    } else {
+        // Aucun résultat trouvé
+        searchResultsContainer.innerHTML = '<p data-translate="aucun_resultat">Aucun résultat trouvé.</p>';
+        document.getElementById('medianContainer').style.display = 'none'; // Cacher la médiane s'il n'y a pas de résultat
+    }
+});
 
-        // Fonction pour mettre à jour l'affichage de la médiane
-        function updateMedianTemperature(filteredStudents) {
-            const groupTemperatures = filteredStudents.map(student => student.temperature); // Supposons que vous avez un champ "temperature" pour chaque étudiant
-            const median = calculateMedian(groupTemperatures);
-            // Mettre à jour l'élément HTML affichant la médiane
-            document.getElementById('medianTemperature').innerText = median + '°C';
-        }
 
-        // Fonction pour calculer la médiane d'un tableau de nombres
-        function calculateMedian(arr) {
-            const sorted = arr.sort((a, b) => a - b);
-            const middle = Math.floor(sorted.length / 2);
-            if (sorted.length % 2 === 0) {
-                return (sorted[middle - 1] + sorted[middle]) / 2;
-            } else {
-                return sorted[middle];
-            }
-        }
+
+
+        /*** Afficher l'historique pour chaque etudiant ***/
+
         // Fonction pour alterner l'affichage de l'historique
         function toggleHistory(studentId) {
             var historiqueContainer = document.getElementById('historique-' + studentId);
@@ -139,43 +138,38 @@
         });
 
         function showHistory(studentId) {
-    var historiqueContainer = document.getElementById('historique-' + studentId);
-    
-    // Simulation de l'historique des données pour l'étudiant correspondant à studentId
-    // on doit remplacer cette simulation par une requête base de données
-
-    var historiqueData = [
-        { date: "2024-04-22", ville1: { VilleDomicileP: "Montbeliard", temperature: 20, vitesseVent: 10 }, ville2: { VilleDomicileS: "Paris", temperature: 18, vitesseVent: 8 } },
-        { date: "2024-04-23", ville1: { VilleDomicileP: "Montbeliard", temperature: 21, vitesseVent: 11 }, ville2: { VilleDomicileS: "Paris", temperature: 19, vitesseVent: 9 } },
-        { date: "2024-04-24", ville1: { VilleDomicileP: "Montbeliard", temperature: 22, vitesseVent: 12 }, ville2: { VilleDomicileS: "Paris", temperature: 20, vitesseVent: 10 } },
-        { date: "2024-04-25", ville1: { VilleDomicileP: "Montbeliard", temperature: 23, vitesseVent: 13 }, ville2: { VilleDomicileS: "Paris", temperature: 21, vitesseVent: 11 } },
-        { date: "2024-04-26", ville1: { VilleDomicileP: "Montbeliard", temperature: 24, vitesseVent: 14 }, ville2: { VilleDomicileS: "Paris", temperature: 22, vitesseVent: 12 } },
-        { date: "2024-04-27", ville1: { VilleDomicileP: "Montbeliard", temperature: 25, vitesseVent: 15 }, ville2: { VilleDomicileS: "Paris", temperature: 23, vitesseVent: 13 } },
-        { date: "2024-04-28", ville1: { VilleDomicileP: "Montbeliard", temperature: 26, vitesseVent: 16 }, ville2: { VilleDomicileS: "Paris", temperature: 24, vitesseVent: 14 } }
-    ];
-
-    var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
-    historiqueData.forEach(function(data, index) {
-        historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
-        historiqueHTML += '<p><strong>' + data.date + ':</strong> ' +
-            '<span data-translate="temperature">Température:</span> ' + data.ville1.temperature + '°C, ' +
-            '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.ville1.vitesseVent + ' km/h' +
-            ' ('+data.ville1.VilleDomicileP+')' +
-            '</p>';
-        historiqueHTML += '<p><strong>' + data.date + ':</strong> ' +
-            '<span data-translate="temperature">Température:</span> ' + data.ville2.temperature + '°C, ' +
-            '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.ville2.vitesseVent + ' km/h' +
-            ' ('+data.ville2.VilleDomicileS+')' +
-            '</p>';
-        historiqueHTML += '</div>';
-    });
-
-    // Afficher l'historique dans le conteneur
-    historiqueContainer.innerHTML = historiqueHTML;
-
-    // Afficher le conteneur d'historique s'il est caché
-    historiqueContainer.style.display = 'block';
-}
+            var historiqueContainer = document.getElementById('historique-' + studentId);
+            // Simulation de l'historique des données pour l'étudiant correspondant à studentId
+            // on doit remplacer cette simulation par une requête base de données4
+            var historiqueData = [
+                { date: "2024-04-22", ville1: { VilleDomicileP: "Montbeliard", temperature: 20, vitesseVent: 10 }, ville2: { VilleDomicileS: "Paris", temperature: 18, vitesseVent: 8 } },
+                { date: "2024-04-23", ville1: { VilleDomicileP: "Montbeliard", temperature: 21, vitesseVent: 11 }, ville2: { VilleDomicileS: "Paris", temperature: 19, vitesseVent: 9 } },
+                { date: "2024-04-24", ville1: { VilleDomicileP: "Montbeliard", temperature: 22, vitesseVent: 12 }, ville2: { VilleDomicileS: "Paris", temperature: 20, vitesseVent: 10 } },
+                { date: "2024-04-25", ville1: { VilleDomicileP: "Montbeliard", temperature: 23, vitesseVent: 13 }, ville2: { VilleDomicileS: "Paris", temperature: 21, vitesseVent: 11 } },
+                { date: "2024-04-26", ville1: { VilleDomicileP: "Montbeliard", temperature: 24, vitesseVent: 14 }, ville2: { VilleDomicileS: "Paris", temperature: 22, vitesseVent: 12 } },
+                { date: "2024-04-27", ville1: { VilleDomicileP: "Montbeliard", temperature: 25, vitesseVent: 15 }, ville2: { VilleDomicileS: "Paris", temperature: 23, vitesseVent: 13 } },
+                { date: "2024-04-28", ville1: { VilleDomicileP: "Montbeliard", temperature: 26, vitesseVent: 16 }, ville2: { VilleDomicileS: "Paris", temperature: 24, vitesseVent: 14 } }
+            ];
+            var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
+            historiqueData.forEach(function(data, index) {
+                historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
+                historiqueHTML += '<p><strong>' + data.date + ':</strong> ' +
+                '<span data-translate="temperature">Température:</span> ' + data.ville1.temperature + '°C, ' +
+                '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.ville1.vitesseVent + ' km/h' +
+                ' ('+data.ville1.VilleDomicileP+')' +
+                '</p>';
+                historiqueHTML += '<p><strong>' + data.date + ':</strong> ' +
+                '<span data-translate="temperature">Température:</span> ' + data.ville2.temperature + '°C, ' +
+                '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.ville2.vitesseVent + ' km/h' +
+                ' ('+data.ville2.VilleDomicileS+')' +
+                '</p>';
+                historiqueHTML += '</div>';
+            });
+            // Afficher l'historique dans le conteneur
+            historiqueContainer.innerHTML = historiqueHTML;
+            // Afficher le conteneur d'historique s'il est caché
+            historiqueContainer.style.display = 'block';
+        }
     </script>
 </body>
 </html>
