@@ -145,13 +145,13 @@
     // on doit remplacer cette simulation par une requête base de données
 
     var historiqueData = [
-        { date: "2024-04-22", ville1: { temperature: 20, vitesseVent: 10 }, ville2: { temperature: 18, vitesseVent: 8 } },
-        { date: "2024-04-23", ville1: { temperature: 21, vitesseVent: 11 }, ville2: { temperature: 19, vitesseVent: 9 } },
-        { date: "2024-04-24", ville1: { temperature: 22, vitesseVent: 12 }, ville2: { temperature: 20, vitesseVent: 10 } },
-        { date: "2024-04-25", ville1: { temperature: 23, vitesseVent: 13 }, ville2: { temperature: 21, vitesseVent: 11 } },
-        { date: "2024-04-26", ville1: { temperature: 24, vitesseVent: 14 }, ville2: { temperature: 22, vitesseVent: 12 } },
-        { date: "2024-04-27", ville1: { temperature: 25, vitesseVent: 15 }, ville2: { temperature: 23, vitesseVent: 13 } },
-        { date: "2024-04-28", ville1: { temperature: 26, vitesseVent: 16 }, ville2: { temperature: 24, vitesseVent: 14 } }
+        { date: "2024-04-22", ville1: { VilleDomicileP: "Montbeliard", temperature: 20, vitesseVent: 10 }, ville2: { VilleDomicileS: "Paris", temperature: 18, vitesseVent: 8 } },
+        { date: "2024-04-23", ville1: { VilleDomicileP: "Montbeliard", temperature: 21, vitesseVent: 11 }, ville2: { VilleDomicileS: "Paris", temperature: 19, vitesseVent: 9 } },
+        { date: "2024-04-24", ville1: { VilleDomicileP: "Montbeliard", temperature: 22, vitesseVent: 12 }, ville2: { VilleDomicileS: "Paris", temperature: 20, vitesseVent: 10 } },
+        { date: "2024-04-25", ville1: { VilleDomicileP: "Montbeliard", temperature: 23, vitesseVent: 13 }, ville2: { VilleDomicileS: "Paris", temperature: 21, vitesseVent: 11 } },
+        { date: "2024-04-26", ville1: { VilleDomicileP: "Montbeliard", temperature: 24, vitesseVent: 14 }, ville2: { VilleDomicileS: "Paris", temperature: 22, vitesseVent: 12 } },
+        { date: "2024-04-27", ville1: { VilleDomicileP: "Montbeliard", temperature: 25, vitesseVent: 15 }, ville2: { VilleDomicileS: "Paris", temperature: 23, vitesseVent: 13 } },
+        { date: "2024-04-28", ville1: { VilleDomicileP: "Montbeliard", temperature: 26, vitesseVent: 16 }, ville2: { VilleDomicileS: "Paris", temperature: 24, vitesseVent: 14 } }
     ];
 
     var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
@@ -160,12 +160,12 @@
         historiqueHTML += '<p><strong>' + data.date + ':</strong> ' +
             '<span data-translate="temperature">Température:</span> ' + data.ville1.temperature + '°C, ' +
             '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.ville1.vitesseVent + ' km/h' +
-            ' (Ville primaire)' +
+            ' ('+data.ville1.VilleDomicileP+')' +
             '</p>';
         historiqueHTML += '<p><strong>' + data.date + ':</strong> ' +
             '<span data-translate="temperature">Température:</span> ' + data.ville2.temperature + '°C, ' +
             '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.ville2.vitesseVent + ' km/h' +
-            ' (Ville secondaire)' +
+            ' ('+data.ville2.VilleDomicileS+')' +
             '</p>';
         historiqueHTML += '</div>';
     });
