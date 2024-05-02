@@ -76,6 +76,7 @@
         var groupe = document.getElementById('cherche_groupe').value.trim().toLowerCase();
 
         var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
+        var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
             var nomMatch = (nom === '' || student.Nom.toLowerCase().includes(nom));
             var prenomMatch = (prenom === '' || student.Prenom.toLowerCase().includes(prenom));
             var groupeMatch = (groupe === '' || student.groupe.toLowerCase().includes(groupe));
@@ -160,12 +161,10 @@
                         '</div>'+
                         '<img class="icone" height="40" width="40" src="icon_meteo/'+data.Icone+'.png">'+
                         '<div class="temperature">'+
-                               ' <span>'+data.Temperature + '°C</span>'+
+                               ' <span>'+data.Temperature + '°C   </span>'+
                                 '<span class="ventVitese">'+ data.VentVitesse +'Km/h</span>'+
                         '</div>'+
-                        '<div class="description">'+
-                            '<p>'+data.Description+'</p>'+
-                        '</div>'+
+                        
                         '<div class="heure">'+date_time.toLocaleTimeString()+'</div>'+
                   '</div></div></div></div>';
             });

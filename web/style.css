@@ -215,7 +215,7 @@ button:hover {
     min-width: 98px;
     color: #000;
     flex-shrink: 0;
-    font-size: 20px;
+    font-size: 16px; 
     font-weight: 500;
     margin-right: 4px;
 

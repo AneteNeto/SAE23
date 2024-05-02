@@ -30,7 +30,7 @@ function queryHistorique($pdo, int $id) {
 }
 
 // QUERY INFORMATION JOUR
-function queryInformationJour($pdo,int $id) {
+function queryInformationJour($pdo, string $nom="",?string $prenom="") {
     $sql = "SELECT R.Ville, M.Description, M.Temperature,
             M.VentVitesse, M.Icone, M.Date 
             FROM Mesure AS M 
