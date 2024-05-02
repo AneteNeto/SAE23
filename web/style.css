@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #c5d2e3; /* Fallback color */
-    background-image: linear-gradient(120deg, #fdfbfb 0%, #c9e0eb 100%); /* Gradient background */
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #b2cad6 100%); /* Gradient background */
     background-size: cover;
 }
 
