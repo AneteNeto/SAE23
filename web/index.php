@@ -56,64 +56,68 @@
     }
 
     $result=mysqli_query($co,$query) or die ("erreur dans la requete $query");
+    
+
+
+
+    
     ?>
+
+    
 
     <!-- Inclusion des scripts JavaScript pour la traduction et le changement de langue -->
     <script src="scripts/translations_fr.js"></script>
     <script src="scripts/translations_en.js"></script>
     <script src="scripts/translate.js"></script>
     <script src="scripts/language.js"></script>
+     <!-- Inclusion de jQuery pour faciliter les requêtes AJAX -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
       
       
-      /***     Cette partie du script gère la soumission du formulaire de recherche.
-        Récupèrer les valeurs des champs de recherche, filtre les étudiants en fonction des critères de recherche,
-        Afficher les résultats dans le conteneur   ***/ 
+       /*** Cette partie du script gère la soumission du formulaire de recherche.
+        Récupérer les valeurs des champs de recherche, filtrer les étudiants en fonction des critères de recherche,
+        Afficher les résultats dans le conteneur ***/
 
-    // Ajouter un event listenr pour soumettre le formulaire de recherche
+    // Ajouter un event listener pour soumettre le formulaire de recherche
     document.getElementById('searchForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Empêcher la soumission du formulaire
+        event.preventDefault(); // Empêcher la soumission du formulaire
 
-    // Récupérer les valeurs des champs de recherche et les convertir en minuscules
-    var nom = document.getElementById('cherche_nom').value.trim().toLowerCase();
-    var prenom = document.getElementById('cherche_prenom').value.trim().toLowerCase();
-    var groupe = document.getElementById('cherche_groupe').value.trim().toLowerCase();
+        var nom = document.getElementById('cherche_nom').value.trim().toLowerCase();
+        var prenom = document.getElementById('cherche_prenom').value.trim().toLowerCase();
+        var groupe = document.getElementById('cherche_groupe').value.trim().toLowerCase();
 
-    // Filtrer les étudiants en fonction des critères de recherche
-    var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
-        var nomMatch = (nom === '' || student.Nom.toLowerCase().includes(nom));
-        var prenomMatch = (prenom === '' || student.Prenom.toLowerCase().includes(prenom));
-        var groupeMatch = (groupe === '' || student.groupe.toLowerCase().includes(groupe));
-        return nomMatch && prenomMatch && groupeMatch;
-    });
-
-    // Afficher les résultats de la recherche
-    var searchResultsContainer = document.getElementById('searchResults');
-    searchResultsContainer.innerHTML = ''; // Supprimer les résultats précédents
-    if (filteredStudents.length > 0) {
-        // Afficher les informations des étudiants filtrés
-        filteredStudents.forEach(function(student) {
-            var studentInfo = '<div class="etudiant">' +
-            '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
-            '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.Prenom + ' ' + student.Nom + '</p>' +
-            '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>' +
-            '<button id="historique" class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>' +
-            '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;">' +
-            '<!-- Contenu de l\'historique de l\'étudiant -->' +
-            '</div>' +
-            '</div>';
-            searchResultsContainer.innerHTML += studentInfo;
+        var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
+            var nomMatch = (nom === '' || student.Nom.toLowerCase().includes(nom));
+            var prenomMatch = (prenom === '' || student.Prenom.toLowerCase().includes(prenom));
+            var groupeMatch = (groupe === '' || student.groupe.toLowerCase().includes(groupe));
+            return nomMatch && prenomMatch && groupeMatch;
         });
-        // Afficher la médiane uniquement s'il y a des résultats de recherche
-        document.getElementById('medianContainer').style.display = 'block';
-        updateMedianTemperature(filteredStudents); // Calculer la médiane pour le groupe filtré
-    } else {
-        // Aucun résultat trouvé
-        searchResultsContainer.innerHTML = '<p data-translate="aucun_resultat">Aucun résultat trouvé.</p>';
-        document.getElementById('medianContainer').style.display = 'none'; // Cacher la médiane s'il n'y a pas de résultat
-    }
-});
+
+        var searchResultsContainer = document.getElementById('searchResults');
+        searchResultsContainer.innerHTML = ''; // Supprimer les résultats précédents
+        if (filteredStudents.length > 0) {
+            // Afficher les informations des étudiants filtrés
+            filteredStudents.forEach(function(student) {
+                var studentInfo = '<div class="etudiant">' +
+                    '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
+                    '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.Prenom + ' ' + student.Nom + '</p>' +
+                    '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>' +
+                    '<button class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>' +
+                    '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;">' +
+                    '<!-- Contenu de l\'historique de l\'étudiant -->' +
+                    '</div>' +
+                    '</div>';
+                searchResultsContainer.innerHTML += studentInfo;
+            });
+            document.getElementById('medianContainer').style.display = 'block';
+            updateMedianTemperature(filteredStudents); // Calculer et afficher la température médiane
+        } else {
+            searchResultsContainer.innerHTML = '<p data-translate="aucun_resultat">Aucun résultat trouvé.</p>';
+            document.getElementById('medianContainer').style.display = 'none';
+        }
+    });
 
 
 
@@ -170,6 +174,35 @@
             // Afficher le conteneur d'historique s'il est caché
             historiqueContainer.style.display = 'block';
         }
+
+  
+
+
+        $(document).ready(function() {
+        // Ajouter un event listener pour soumettre le formulaire de recherche
+        $('#searchForm').submit(function(event) {
+            event.preventDefault(); // Empêcher la soumission du formulaire
+
+            var formData = $(this).serialize(); // Sérialiser les données du formulaire
+
+            // Effectuer une requête AJAX pour récupérer les températures médianes du groupe
+            $.ajax({
+                url: 'temperatures.php',
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(data) {
+                    // Afficher les températures médianes du groupe
+                    var medianTemperature = data[Object.keys(data)[0]]; // Récupérer la première valeur de l'objet JSON
+                    $('#medianTemperature').text(medianTemperature + ' °C'); // Afficher la température médiane avec l'unité
+                    $('#medianContainer').show(); // Afficher le conteneur de la température médiane
+                },
+                error: function(xhr, status, error) {
+                    console.error(error); // Afficher les erreurs dans la console
+                }
+            });
+        });
+    });
     </script>
 </body>
 </html>
