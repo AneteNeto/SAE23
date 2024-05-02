@@ -85,14 +85,26 @@
             // Afficher les informations des étudiants filtrés
             filteredStudents.forEach(function(student) {
                 var studentInfo = '<div class="etudiant">' +
-                    '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
-                    '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.Prenom + ' ' + student.Nom + '</p>' +
-                    '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>' +
-                    '<button class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>' +
-                    '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;">' +
-                    '<!-- Contenu de l\'historique de l\'étudiant -->' +
-                    '</div>' +
-                    '</div>';
+                '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
+                '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.Prenom + ' ' + student.Nom + '</p>' +
+                '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>' +
+                 '<div class="container" id="weatherContainer">' +
+                '<a href="">' +
+                '<div><strong>Montbeliard</strong> <span id="res" style="display: none;">,France</span></div>' +
+                '<div>Partiellement nuageux</div>' +
+                '<div>' +
+                '<img src="icone_weather.svg" width="32" height="32">' +
+                '<span>21º<span>C</span></span>' +
+                '</div>' +
+                '<div>Vent <span>8Km/h</span></div>' +
+                '</a>' +
+                '</div>' +
+                '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;">' +
+                '<!-- Contenu de l\'historique de l\'étudiant -->' +
+                '</div>' +
+                '<button class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>' +
+                '</div>';
+
                 searchResultsContainer.innerHTML += studentInfo;
             });
             document.getElementById('medianContainer').style.display = 'block';
