@@ -159,7 +159,7 @@ button:hover {
     height: 100px;  
     border-radius: 10px; /* Coins arrondis */
     padding: 20px; /* Espacement intérieur */
-    margin-bottom: 20px; /* Marge en bas */
+    margin-bottom: 10px; /* Marge en bas */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre */
     margin: 8px;
     opacity: 1;
@@ -169,4 +169,85 @@ button:hover {
 #weatherContainer a {
     text-decoration: none;
     color:#22202a;
+}
+
+.historique{
+    width: 100%; /* Pour que le contenu occupe toute la largeur disponible */
+    max-width: 600px; /* Largeur maximale du contenu */
+    padding: 5px; /* Ajouter un peu d'espace autour du contenu */
+}
+
+
+.termoEtu{
+    display: flex;
+    align-items: center; /* Aligner les éléments sur l'axe vertical */
+    margin-bottom: 20px; /* Ajouter de l'espace entre les divs */
+    border-radius: 6px; /* Arrondir les coins */
+    padding: 10px; /* Ajouter un espacement intérieur */
+    background-color: rgba(0, 0, 0, 0.25);
+
+}
+
+.date {
+   margin-right: 10px;
+    flex-shrink: 0;
+    font-size: 12px;
+    margin-right: 20px;
+    min-width: 45px;
+    text-align: center;
+    white-space: nowrap;
+    color: #000;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.jour{
+    
+    color: rgba(0, 0, 0, 0.6); 
+    font-size: 12px; 
+
+}
+
+.temperature{
+    flex-grow: 1;
+    flex-shrink: 0;
+    margin-right: 12px;
+    min-width: 98px;
+    color: #000;
+    flex-shrink: 0;
+    font-size: 16px; 
+    font-weight: 500;
+    margin-right: 4px;
+
+}
+
+.ventVitese{
+    font-size: 16px; 
+    color: rgba(0, 0, 0, 0.6); 
+
+}
+
+.description{
+    flex-grow: 1;
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+.heure{ 
+    margin-left: auto;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.6); 
+    
+
+}
+
+.container-histo {
+    display: flex;
+    justify-content: center; /* Centrer horizontalement */  
 }

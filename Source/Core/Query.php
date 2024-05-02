@@ -31,7 +31,7 @@ function queryHistorique($pdo, string $nom="",?string $prenom="") {
 
 // QUERY INFORMATION JOUR
 function queryInformationJour($pdo, string $nom="",?string $prenom="") {
-    $sql = "SELECT E.Nom, E.Prenom, R.Ville, M.Description, M.Temperature,
+    $sql = "SELECT R.Ville, M.Description, M.Temperature,
             M.VentVitesse, M.Icone, M.Date 
             FROM Mesure AS M 
             JOIN Residence AS R ON M.IdR = R.IdR 

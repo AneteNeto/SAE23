@@ -14,7 +14,7 @@
     <h1 data-translate="thermometer_title">Thermomètre des étudiants : </h1>
     <h1 data-translate="specialite">BUT1 R&T</h1>
     <div class="container">
-        <form id="searchForm">   <!-- formulaire de la barre de recherche -->
+        <form id="searchForm" action="" method="post">   <!-- formulaire de la barre de recherche -->
             <label for="cherche_nom" data-translate="nom">Nom:</label>
             <input type="text" id="cherche_nom" name="nom" placeholder="...">
             
@@ -41,28 +41,14 @@
    
 
     <!-- data -->
-    <?php
-    $students = [];
-    $SERVEUR="mysql_serv";
-    $LOGIN="adbneto";
-    $PASSW="adbneto-rt2023";
-    $BD="adbneto_05";
-
-    $co=mysqli_connect($SERVEUR,$LOGIN,$PASSW,$BD)or die("Unable to connect");
-    $query="SELECT * FROM Etudiant";
-    $result=mysqli_query($co,$query) or die ("erreur dans la requete $query");
-    while($row=mysqli_fetch_assoc($result)){
-        $students []=$row;
-    }
-
-    $result=mysqli_query($co,$query) or die ("erreur dans la requete $query");
-    
-
-
-
-    
+     <!-- data -->
+   <?php
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+        require "../Source/Core/Query.php";
+        $students=queryetudiant($pdo);
+        $historique=queryHistorique($pdo,1);
     ?>
-
     
 
     <!-- Inclusion des scripts JavaScript pour la traduction et le changement de langue -->
@@ -116,11 +102,9 @@
                 '</a>' +
                 '</div>' +
                 '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;">' +
-                '<!-- Contenu de l\'historique de l\'étudiant -->' +
                 '</div>' +
                 '<button class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>' +
                 '</div>';
-
                 searchResultsContainer.innerHTML += studentInfo;
             });
             document.getElementById('medianContainer').style.display = 'block';
@@ -130,7 +114,6 @@
             document.getElementById('medianContainer').style.display = 'none';
         }
     });
-
 
 
 
@@ -157,41 +140,36 @@
             var historiqueContainer = document.getElementById('historique-' + studentId);
             // Simulation de l'historique des données pour l'étudiant correspondant à studentId
             // on doit remplacer cette simulation par une requête base de données4
-            var historiqueData = [
-                { date: "2024-04-22", ville1: { VilleDomicileP: "Montbeliard", temperature: 20, vitesseVent: 10 }, ville2: { VilleDomicileS: "Paris", temperature: 18, vitesseVent: 8 } },
-                { date: "2024-04-23", ville1: { VilleDomicileP: "Montbeliard", temperature: 21, vitesseVent: 11 }, ville2: { VilleDomicileS: "Paris", temperature: 19, vitesseVent: 9 } },
-                { date: "2024-04-24", ville1: { VilleDomicileP: "Montbeliard", temperature: 22, vitesseVent: 12 }, ville2: { VilleDomicileS: "Paris", temperature: 20, vitesseVent: 10 } },
-                { date: "2024-04-25", ville1: { VilleDomicileP: "Montbeliard", temperature: 23, vitesseVent: 13 }, ville2: { VilleDomicileS: "Paris", temperature: 21, vitesseVent: 11 } },
-                { date: "2024-04-26", ville1: { VilleDomicileP: "Montbeliard", temperature: 24, vitesseVent: 14 }, ville2: { VilleDomicileS: "Paris", temperature: 22, vitesseVent: 12 } },
-                { date: "2024-04-27", ville1: { VilleDomicileP: "Montbeliard", temperature: 25, vitesseVent: 15 }, ville2: { VilleDomicileS: "Paris", temperature: 23, vitesseVent: 13 } },
-                { date: "2024-04-28", ville1: { VilleDomicileP: "Montbeliard", temperature: 26, vitesseVent: 16 }, ville2: { VilleDomicileS: "Paris", temperature: 24, vitesseVent: 14 } }
-            ];
+            var  historiqueData =<?php echo json_encode($historique); ?>;
             var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
             historiqueData.forEach(function(data, index) {
                 historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
-                historiqueHTML += '<p><strong>' + data.date + ':</strong> ' +
-                '<span data-translate="temperature">Température:</span> ' + data.ville1.temperature + '°C, ' +
-                '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.ville1.vitesseVent + ' km/h' +
-                ' ('+data.ville1.VilleDomicileP+')' +
-                '</p>';
-                historiqueHTML += '<p><strong>' + data.date + ':</strong> ' +
-                '<span data-translate="temperature">Température:</span> ' + data.ville2.temperature + '°C, ' +
-                '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.ville2.vitesseVent + ' km/h' +
-                ' ('+data.ville2.VilleDomicileS+')' +
-                '</p>';
-                historiqueHTML += '</div>';
+                //historiqueHTML += '<p><strong>' + data.Date + ':</strong> ' +
+                //'<span data-translate="temperature">Température:</span> ' + data.Temperature + '°C, ' +
+                //'<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.VentVitesse + ' km/h' +
+                //' ('+data.Ville+')' +
+                //'</p>';
+                let date_time = new Date(data.Date);
+                historiqueHTML +='<div class="container-histo">'+
+                '<div class="historique">'+
+                '<div class="termoEtu">'+
+                        '<div class="date" style="width: 58px;">'+
+                            '<p>'+date_time.toLocaleDateString('fr-FR', { weekday: 'long' })+'</p>'+
+                            '<p class="jour">'+date_time.toLocaleDateString()+'</p>'+
+                        '</div>'+
+                        '<img class="icone" height="40" width="40" src="icon_meteo/'+data.Icone+'.png">'+
+                        '<div class="temperature">'+
+                               ' <span>'+data.Temperature + '°C  </span>'+
+                                '<span class="ventVitese">'+ data.VentVitesse +'Km/h</span>'+
+                        '</div>'+
+                        '<div class="heure">'+date_time.toLocaleTimeString()+'</div>'+
+                  '</div></div></div></div>';
             });
             // Afficher l'historique dans le conteneur
             historiqueContainer.innerHTML = historiqueHTML;
             // Afficher le conteneur d'historique s'il est caché
             historiqueContainer.style.display = 'block';
         }
-
-  
-
-        
-
-
     </script>
 </body>
 </html>

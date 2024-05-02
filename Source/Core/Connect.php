@@ -15,6 +15,10 @@ class Connect
      */
     public static function getInstance()
     {
+        $SERVEUR = "mysql_serv";
+        $LOGIN = "adbneto";
+        $PASSW = "adbneto-rt2023";
+        $BD = "adbneto_05";
 
         try {
             if (empty(self::$instance)) {
@@ -26,9 +30,9 @@ class Connect
                 );*/
 
                  self::$instance = new PDO(
-                    "mysql:host=localhost;dbname=sae;charset=utf8mb4",
-                    "etena",
-                    "cookie2017",
+                    "mysql:host=".$SERVEUR.";dbname=".$BD.";charset=utf8mb4",
+                    $LOGIN,
+                    $PASSW,
                     [
                        \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
                         \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
@@ -38,7 +42,7 @@ class Connect
                 );
             }
         } catch (\PDOException $exception) {
-            die("Connection failed: " . $e->getMessage());
+            die("Connection failed: " . $exception->getMessage());
         }
 
         return self::$instance;
