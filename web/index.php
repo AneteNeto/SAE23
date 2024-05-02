@@ -14,7 +14,7 @@
     <h1 data-translate="thermometer_title">Thermomètre des étudiants : </h1>
     <h1 data-translate="specialite">BUT1 R&T</h1>
     <div class="container">
-        <form id="searchForm">   <!-- formulaire de la barre de recherche -->
+        <form id="searchForm" action="" method="post">   <!-- formulaire de la barre de recherche -->
             <label for="cherche_nom" data-translate="nom">Nom:</label>
             <input type="text" id="cherche_nom" name="nom" placeholder="...">
             
@@ -41,14 +41,12 @@
    
 
     <!-- data -->
-    <?php
-        require_once "../Source/Core/Query.php";
-        error_reporting(E_ALL);
-        ini_set('display_errors', 1);
-        $students = queryetudiant($pdo);
-        $historique=queryHistorique($pdo,"NETO","Anete");
+     <!-- data -->
+   <?php
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+        require "temperatures.php";
     ?>
-
     
 
     <!-- Inclusion des scripts JavaScript pour la traduction et le changement de langue -->
@@ -131,49 +129,21 @@
             var historiqueContainer = document.getElementById('historique-' + studentId);
             // Simulation de l'historique des données pour l'étudiant correspondant à studentId
             // on doit remplacer cette simulation par une requête base de données4
-            var historiqueData =<?php echo json_encode($historique); ?>
+            var  historiqueData =<?php echo json_encode($historique); ?>;
             var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
-            historiqueData.forEach(function(data) {
+            historiqueData.forEach(function(data, index) {
+                historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
                 historiqueHTML += '<p><strong>' + data.Date + ':</strong> ' +
                 '<span data-translate="temperature">Température:</span> ' + data.Temperature + '°C, ' +
                 '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.VentVitesse + ' km/h' +
                 ' ('+data.Ville+')' +
-                '</p></div>';
+                '</p>';
             });
             // Afficher l'historique dans le conteneur
             historiqueContainer.innerHTML = historiqueHTML;
             // Afficher le conteneur d'historique s'il est caché
             historiqueContainer.style.display = 'block';
         }
-
-  
-
-
-        $(document).ready(function() {
-        // Ajouter un event listener pour soumettre le formulaire de recherche
-        $('#searchForm').submit(function(event) {
-            event.preventDefault(); // Empêcher la soumission du formulaire
-
-            var formData = $(this).serialize(); // Sérialiser les données du formulaire
-
-            // Effectuer une requête AJAX pour récupérer les températures médianes du groupe
-            $.ajax({
-                url: 'temperatures.php',
-                type: 'POST',
-                data: formData,
-                dataType: 'json',
-                success: function(data) {
-                    // Afficher les températures médianes du groupe
-                    var medianTemperature = data[Object.keys(data)[0]]; // Récupérer la première valeur de l'objet JSON
-                    $('#medianTemperature').text(medianTemperature + ' °C'); // Afficher la température médiane avec l'unité
-                    $('#medianContainer').show(); // Afficher le conteneur de la température médiane
-                },
-                error: function(xhr, status, error) {
-                    console.error(error); // Afficher les erreurs dans la console
-                }
-            });
-        });
-    });
     </script>
 </body>
 </html>

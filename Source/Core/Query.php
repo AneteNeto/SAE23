@@ -69,3 +69,7 @@ function queryAverageGroupe($pdo,string $groupe) {
         var_dump(queryAverageGroupe($pdo,"GB2"));*/
 
 ?>
+
+
+  
+
