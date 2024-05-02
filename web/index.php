@@ -96,28 +96,41 @@
 
     // Ajouter les informations météorologiques de l'étudiant
     var weatherInfo = '';
-    if (student.Villes && student.Icones) {
-        var villes = student.Villes.split(',');
-        var icones = student.Icones.split(',');
-        var temperatures = student.Temperatures.split(',');
-        var vitesseVents = student.VitesseVents.split(',');
+if (student.Villes && student.Icones) {
+    var villesSet = new Set(); // Créer un ensemble pour stocker les villes uniques
+    var villes = student.Villes.split(',');
+    var icones = student.Icones.split(',');
+    var temperatures = student.Temperatures.split(',');
+    var vitesseVents = student.VitesseVents.split(',');
 
-        weatherInfo += '<div class="weather-container">' + 
-            '<div class="weather-info-wrapper">'; 
-        for (var i = 0; i < villes.length; i++) {
-            weatherInfo += '<div class="weather-info">' +
-                '<div class="nomdeville">' + '<p>' + villes[i] + '</p>' +
-                '<div>' +
-                '<img class="icone" height="40" width="40" src="icon_meteo/' + icones[i] + '.png">' +
-                ' <span>' + temperatures[i] + '°C  </span>' +
-                '</div>' +
-                '<span class="ventVitese">' + vitesseVents[i] + 'Km/h</span>' +
-                '</div>';
-        }
-
-        weatherInfo += '</div>' + 
-            '</div>'; 
+    for (var i = 0; i < villes.length; i++) {
+        villesSet.add(villes[i]); // Ajouter la ville à l'ensemble
     }
+
+    weatherInfo += '<div class="weather-container">' + 
+        '<div class="weather-info-wrapper">'; 
+
+    // Parcourir l'ensemble des villes uniques
+    villesSet.forEach(function(ville) {
+        var indexVille = villes.indexOf(ville);
+        var iconeVille = icones[indexVille];
+        var temperatureVille = temperatures[indexVille];
+        var vitesseVentVille = vitesseVents[indexVille];
+
+        weatherInfo += '<div class="weather-info">' +
+            '<div class="nomdeville">' + '<p>' + ville + '</p>' +
+            '<div>' +
+            '<img class="icone" height="40" width="40" src="icon_meteo/' + iconeVille + '.png">' +
+            ' <span>' + temperatureVille + '°C  </span>' +
+            '</div>' +
+            '<span class="ventVitese">' + vitesseVentVille + 'Km/h</span>' +
+            '</div>';
+    });
+
+    weatherInfo += '</div>' + 
+        '</div>'; 
+}
+
 
     var historyButton = '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;"></div>' +
         '<button class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>';

@@ -62,7 +62,3 @@ function queryAverageGroupe($pdo,string $groupe) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
-
-
-  
-
