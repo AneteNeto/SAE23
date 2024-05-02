@@ -45,7 +45,9 @@
    <?php
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-        require "temperatures.php";
+        require "../Source/Core/Query.php";
+        $students=queryetudiant($pdo);
+        $historique=queryHistorique($pdo, 1);
     ?>
     
 
@@ -104,7 +106,6 @@
                 '</div>' +
                 '<button class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>' +
                 '</div>';
-
                 searchResultsContainer.innerHTML += studentInfo;
             });
             document.getElementById('medianContainer').style.display = 'block';
@@ -144,12 +145,31 @@
             var  historiqueData =<?php echo json_encode($historique); ?>;
             var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
             historiqueData.forEach(function(data, index) {
-                historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
-                historiqueHTML += '<p><strong>' + data.Date + ':</strong> ' +
-                '<span data-translate="temperature">Température:</span> ' + data.Temperature + '°C, ' +
-                '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.VentVitesse + ' km/h' +
-                ' ('+data.Ville+')' +
-                '</p>';
+               // historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
+                //historiqueHTML += '<p><strong>' + data.Date + ':</strong> ' +
+                //'<span data-translate="temperature">Température:</span> ' + data.Temperature + '°C, ' +
+                //'<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.VentVitesse + ' km/h' +
+                //' ('+data.Ville+')' +
+                //'</p>';
+
+                historiqueHTML +='<div class="container-histo">'+
+                '<div class="historique">'+
+                '<div class="termoEtu">'+
+                        '<div class="date" style="width: 58px;">'+
+                            '<p>Auj</p>'+
+                            '<p class="jour">'+data.Date+.'</p>'+
+                        '</div>'+
+                        '<img class="icone" height="40" width="40" src="icone_weather.svg">'+
+                        '<div class="température">'+
+                               ' <span>'+data.Temperature + '°C ''</span>'+
+                                '<span class="ventVitese">'++ data.VentVitesse +'Km/h</span>'+
+                        '</div>'+
+                        '<div class="description">'+
+                            '<p>'+data.Description+'</p>'+
+                        '</div>'+
+                        '<div class="heure">20:41'
+                        '</div>'+
+                '</div></div></div>';
             });
             // Afficher l'historique dans le conteneur
             historiqueContainer.innerHTML = historiqueHTML;

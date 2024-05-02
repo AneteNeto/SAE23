@@ -15,17 +15,17 @@ function queryetudiant($pdo){
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 // QUERY HISTORIQUE
-function queryHistorique($pdo, string $nom="",?string $prenom="") {
+function queryHistorique($pdo, int $id) {
     $sql = "SELECT R.Ville, M.Description, M.Temperature,
     M.VentVitesse, M.Icone, M.Date 
     FROM Mesure AS M 
     JOIN Residence AS R ON M.IdR = R.IdR 
     JOIN Etudiant AS E ON R.IdR IN (E.VilleDomicileP, E.VilleDomicileS)
-    WHERE E.Nom = :nom AND E.Prenom = :prenom
+    WHERE E.idE = :id
     ORDER BY Date DESC";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['nom' => $nom, 'prenom' => $prenom]);
+    $stmt->execute(['id' =>$id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
