@@ -16,7 +16,7 @@ function queryetudiant($pdo){
 }
 // QUERY HISTORIQUE
 function queryHistorique($pdo, string $nom="",?string $prenom="") {
-    $sql = "SELECT E.Nom, E.Prenom, R.Ville, M.Description, M.Temperature,
+    $sql = "SELECT R.Ville, M.Description, M.Temperature,
     M.VentVitesse, M.Icone, M.Date 
     FROM Mesure AS M 
     JOIN Residence AS R ON M.IdR = R.IdR 
@@ -31,7 +31,7 @@ function queryHistorique($pdo, string $nom="",?string $prenom="") {
 
 // QUERY INFORMATION JOUR
 function queryInformationJour($pdo, string $nom="",?string $prenom="") {
-    $sql = "SELECT E.Nom, E.Prenom, R.Ville, M.Description, M.Temperature,
+    $sql = "SELECT R.Ville, M.Description, M.Temperature,
             M.VentVitesse, M.Icone, M.Date 
             FROM Mesure AS M 
             JOIN Residence AS R ON M.IdR = R.IdR 
@@ -56,12 +56,10 @@ function queryAverageGroupe($pdo,string $groupe) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-/*
-        require "../Source/Core/Query.php";
-        $students=queryEtudiant($pdo);
+       /* $students=queryEtudiant($pdo);
 
         var_dump($students);
-        /*$historique=queryHistorique($pdo,"IDIRI","Anas");
+        $historique=queryHistorique($pdo,"IDIRI","Anas");
         $jour=queryInformationJour($pdo,"IDIRI","Anas");
         echo "================HISTORIQUE====================<br>";
         var_dump($historique);

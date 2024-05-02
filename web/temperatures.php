@@ -1,12 +1,7 @@
 <?php
 // Connexion à la base de données
-$SERVEUR = "mysql_serv";
-$LOGIN = "adbneto";
-$PASSW = "adbneto-rt2023";
-$BD = "adbneto_05";
-$co = mysqli_connect($SERVEUR, $LOGIN, $PASSW, $BD) or die("Impossible de se connecter à la base de données.");
-
 // Récupérer les valeurs des critères de recherche depuis la requête POST
+require_once "../Source/Core/Query.php";
 $nom = $_POST['nom'] ?? '';
 $prenom = $_POST['prenom'] ?? '';
 $groupe = $_POST['groupe'] ?? '';
