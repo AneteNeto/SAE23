@@ -36,18 +36,15 @@
             <p id="medianTemperature">-</p>
         </div>
     
-   
-
-   
 
     <!-- data -->
-     <!-- data -->
    <?php
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
         require "../Source/Core/Query.php";
         $students=queryetudiant($pdo);
         $historique=queryHistorique($pdo,1);
+       
     ?>
     
 
@@ -56,8 +53,6 @@
     <script src="scripts/translations_en.js"></script>
     <script src="scripts/translate.js"></script>
     <script src="scripts/language.js"></script>
-     <!-- Inclusion de jQuery pour faciliter les requêtes AJAX -->
-     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
       
@@ -69,50 +64,79 @@
     // Ajouter un event listener pour soumettre le formulaire de recherche
     document.getElementById('searchForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Empêcher la soumission du formulaire
-
         var nom = document.getElementById('cherche_nom').value.trim().toLowerCase();
         var prenom = document.getElementById('cherche_prenom').value.trim().toLowerCase();
         var groupe = document.getElementById('cherche_groupe').value.trim().toLowerCase();
+
+        
 
         var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
             var nomMatch = (nom === '' || student.Nom.toLowerCase().includes(nom));
             var prenomMatch = (prenom === '' || student.Prenom.toLowerCase().includes(prenom));
             var groupeMatch = (groupe === '' || student.groupe.toLowerCase().includes(groupe));
             return nomMatch && prenomMatch && groupeMatch;
+            
+
         });
+
+        // À l'intérieur de la fonction de gestion de la soumission du formulaire
+
+
 
         var searchResultsContainer = document.getElementById('searchResults');
         searchResultsContainer.innerHTML = ''; // Supprimer les résultats précédents
+
         if (filteredStudents.length > 0) {
             // Afficher les informations des étudiants filtrés
             filteredStudents.forEach(function(student) {
-                var studentInfo = '<div class="etudiant">' +
-                '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
-                '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.Prenom + ' ' + student.Nom + '</p>' +
-                '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>' +
-                 '<div class="container" id="weatherContainer">' +
-                '<a href="">' +
-                '<div><strong>Montbeliard</strong> <span id="res" style="display: none;">,France</span></div>' +
-                '<div>Partiellement nuageux</div>' +
+    var studentInfo = '<div class="etudiant">' +
+        '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
+        '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.Prenom + ' ' + student.Nom + '</p>' +
+        '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>';
+
+    // Ajouter les informations météorologiques de l'étudiant
+    var weatherInfo = '';
+    if (student.Villes && student.Icones) {
+        var villes = student.Villes.split(',');
+        var icones = student.Icones.split(',');
+        var temperatures = student.Temperatures.split(',');
+        var vitesseVents = student.VitesseVents.split(',');
+
+        weatherInfo += '<div class="weather-container">' + // Start of weather container
+            '<div class="weather-info-wrapper">'; // Start of weather info wrapper
+
+        for (var i = 0; i < villes.length; i++) {
+            weatherInfo += '<div class="weather-info">' +
+                '<div class="nomdeville">' + '<p>' + villes[i] + '</p>' +
                 '<div>' +
-                '<img src="icone_weather.svg" width="32" height="32">' +
-                '<span>21º<span>C</span></span>' +
+                '<img class="icone" height="40" width="40" src="icon_meteo/' + icones[i] + '.png">' +
+                ' <span>' + temperatures[i] + '°C  </span>' +
                 '</div>' +
-                '<div>Vent <span>8Km/h</span></div>' +
-                '</a>' +
-                '</div>' +
-                '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;">' +
-                '</div>' +
-                '<button class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>' +
+                '<span class="ventVitese">' + vitesseVents[i] + 'Km/h</span>' +
                 '</div>';
-                searchResultsContainer.innerHTML += studentInfo;
-            });
+        }
+
+        weatherInfo += '</div>' + // End of weather info wrapper
+            '</div>'; // End of weather container
+    }
+
+    var historyButton = '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;"></div>' +
+        '<button class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>';
+
+    var studentHTML = studentInfo + weatherInfo + historyButton + '</div>';
+
+    // Ajouter les informations de l'étudiant au conteneur de résultats de recherche
+    searchResultsContainer.innerHTML += studentHTML;
+});
+
+
             document.getElementById('medianContainer').style.display = 'block';
             updateMedianTemperature(filteredStudents); // Calculer et afficher la température médiane
         } else {
             searchResultsContainer.innerHTML = '<p data-translate="aucun_resultat">Aucun résultat trouvé.</p>';
             document.getElementById('medianContainer').style.display = 'none';
         }
+
     });
 
 
@@ -144,11 +168,6 @@
             var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
             historiqueData.forEach(function(data, index) {
                 historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
-                //historiqueHTML += '<p><strong>' + data.Date + ':</strong> ' +
-                //'<span data-translate="temperature">Température:</span> ' + data.Temperature + '°C, ' +
-                //'<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.VentVitesse + ' km/h' +
-                //' ('+data.Ville+')' +
-                //'</p>';
                 let date_time = new Date(data.Date);
                 historiqueHTML +='<div class="container-histo">'+
                 '<div class="historique">'+
@@ -168,6 +187,7 @@
                         '<div class="heure">'+date_time.toLocaleTimeString()+'</div>'+
                   '</div></div></div></div>';
             });
+
             // Afficher l'historique dans le conteneur
             historiqueContainer.innerHTML = historiqueHTML;
             // Afficher le conteneur d'historique s'il est caché

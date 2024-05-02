@@ -153,23 +153,51 @@ button:hover {
     background-color: #ff403d;
 }
 
-#weatherContainer {
-    background-color: rgba(0, 0, 0, 0.2); /* Couleur de fond */
-    width: 150px;
-    height: 100px;  
-    border-radius: 10px; /* Coins arrondis */
-    padding: 20px; /* Espacement intérieur */
-    margin-bottom: 10px; /* Marge en bas */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre */
+.weather-container {
+    background-color: rgba(0, 0, 0, 0.2);
+    width: auto;  
+    border-radius: 10px;
+    padding: 20px;
     margin: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     opacity: 1;
     padding-bottom: 30px;
-    
+    display: inline-block; /* Display weather containers inline */
 }
-#weatherContainer a {
+
+.weather-container a {
     text-decoration: none;
-    color:#22202a;
+    color: #22202a;
 }
+
+.weather-container .weather-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.weather-container .weather-info .city {
+    margin-bottom: 10px;
+}
+
+.weather-container .weather-info .city img {
+    height: 40px;
+    width: 40px;
+    margin-right: 5px;
+}
+
+.weather-container .weather-info .city .temperature {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.weather-container .weather-info .city .wind-speed {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    margin-top: 5px;
+}
+
+
 
 .historique{
     width: 100%; /* Pour que le contenu occupe toute la largeur disponible */
@@ -224,7 +252,6 @@ button:hover {
 .ventVitese{
     font-size: 16px; 
     color: rgba(0, 0, 0, 0.6); 
-    
 
 }
 
