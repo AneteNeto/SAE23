@@ -33,7 +33,7 @@
 
         <div class="container" id="medianContainer" style="display: none;">
         <h2 data-translate="group_temperature">Température médiane du groupe :</h2>
-            <p id="medianTemperature"></p>
+            <p id="medianTemperature">-</p>
         </div>
     
    
@@ -48,7 +48,6 @@
         require "../Source/Core/Query.php";
         $students=queryetudiant($pdo);
         $historique=queryHistorique($pdo,1);
-        $average=queryAverageGroupe($pdo,"GB2");
     ?>
     
 
@@ -75,7 +74,6 @@
         var prenom = document.getElementById('cherche_prenom').value.trim().toLowerCase();
         var groupe = document.getElementById('cherche_groupe').value.trim().toLowerCase();
 
-        var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
         var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
             var nomMatch = (nom === '' || student.Nom.toLowerCase().includes(nom));
             var prenomMatch = (prenom === '' || student.Prenom.toLowerCase().includes(prenom));
@@ -110,7 +108,7 @@
                 searchResultsContainer.innerHTML += studentInfo;
             });
             document.getElementById('medianContainer').style.display = 'block';
-            document.getElementById('medianTemperature').innerHTML = 'TESTE'; // Calculer et afficher la température médiane
+            updateMedianTemperature(filteredStudents); // Calculer et afficher la température médiane
         } else {
             searchResultsContainer.innerHTML = '<p data-translate="aucun_resultat">Aucun résultat trouvé.</p>';
             document.getElementById('medianContainer').style.display = 'none';
@@ -161,10 +159,12 @@
                         '</div>'+
                         '<img class="icone" height="40" width="40" src="icon_meteo/'+data.Icone+'.png">'+
                         '<div class="temperature">'+
-                               ' <span>'+data.Temperature + '°C   </span>'+
+                               ' <span>'+data.Temperature + '°C  </span>'+
                                 '<span class="ventVitese">'+ data.VentVitesse +'Km/h</span>'+
                         '</div>'+
-                        
+                        '<div class="nomdeville">'+
+                            '<p>'+data.Ville +'</p>'+
+                        '</div>'+
                         '<div class="heure">'+date_time.toLocaleTimeString()+'</div>'+
                   '</div></div></div></div>';
             });
