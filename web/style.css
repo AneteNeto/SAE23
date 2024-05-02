@@ -159,7 +159,7 @@ button:hover {
     height: 100px;  
     border-radius: 10px; /* Coins arrondis */
     padding: 20px; /* Espacement intérieur */
-    margin-bottom: 20px; /* Marge en bas */
+    margin-bottom: 10px; /* Marge en bas */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre */
     margin: 8px;
     opacity: 1;
@@ -174,7 +174,7 @@ button:hover {
 .historique{
     width: 100%; /* Pour que le contenu occupe toute la largeur disponible */
     max-width: 600px; /* Largeur maximale du contenu */
-    padding: 20px; /* Ajouter un peu d'espace autour du contenu */
+    padding: 5px; /* Ajouter un peu d'espace autour du contenu */
 }
 
 
@@ -197,8 +197,7 @@ button:hover {
     text-align: center;
     white-space: nowrap;
     color: #000;
-    font-size: 16px;
-    font-weight: 700;
+    font-weight: 500;
     text-transform: uppercase;
 }
 
@@ -209,15 +208,15 @@ button:hover {
 
 }
 
-.température{
+.temperature{
     flex-grow: 1;
     flex-shrink: 0;
     margin-right: 12px;
     min-width: 98px;
     color: #000;
     flex-shrink: 0;
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: 500;
     margin-right: 4px;
 
 }
@@ -232,7 +231,7 @@ button:hover {
     flex-grow: 1;
     color: #000;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 500;
     line-height: 24px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -249,9 +248,6 @@ button:hover {
 }
 
 .container-histo {
-    background-color: #000;
     display: flex;
-    justify-content: center; /* Centrer horizontalement */
-    
-   
+    justify-content: center; /* Centrer horizontalement */  
 }
