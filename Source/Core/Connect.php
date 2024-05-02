@@ -42,7 +42,7 @@ class Connect
                 );
             }
         } catch (\PDOException $exception) {
-            die("Connection failed: " . $e->getMessage());
+            die("Connection failed: " . $exception->getMessage());
         }
 
         return self::$instance;

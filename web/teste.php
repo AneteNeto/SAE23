@@ -33,7 +33,7 @@
 
         <div class="container" id="medianContainer" style="display: none;">
         <h2 data-translate="group_temperature">Température médiane du groupe :</h2>
-            <p id="medianTemperature"></p>
+            <p id="medianTemperature">-</p>
         </div>
     
    
@@ -47,8 +47,8 @@
     ini_set('display_errors', 1);
         require "../Source/Core/Query.php";
         $students=queryetudiant($pdo);
-        $historique=queryHistorique($pdo,1);
-        $average=queryAverageGroupe($pdo,"GB2");
+        $historique=queryHistorique($pdo, 1);
+        $jour= queryInformationJour($pdo,1);
     ?>
     
 
@@ -75,7 +75,7 @@
         var prenom = document.getElementById('cherche_prenom').value.trim().toLowerCase();
         var groupe = document.getElementById('cherche_groupe').value.trim().toLowerCase();
 
-        var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
+        var filteredStudents = <?php echo ($students); ?>.filter(function(student) {
             var nomMatch = (nom === '' || student.Nom.toLowerCase().includes(nom));
             var prenomMatch = (prenom === '' || student.Prenom.toLowerCase().includes(prenom));
             var groupeMatch = (groupe === '' || student.groupe.toLowerCase().includes(groupe));
@@ -103,18 +103,20 @@
                 '</a>' +
                 '</div>' +
                 '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;">' +
+                '<!-- Contenu de l\'historique de l\'étudiant -->' +
                 '</div>' +
                 '<button class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>' +
                 '</div>';
                 searchResultsContainer.innerHTML += studentInfo;
             });
             document.getElementById('medianContainer').style.display = 'block';
-            document.getElementById('medianTemperature').innerHTML = 'TESTE'; // Calculer et afficher la température médiane
+            updateMedianTemperature(filteredStudents); // Calculer et afficher la température médiane
         } else {
             searchResultsContainer.innerHTML = '<p data-translate="aucun_resultat">Aucun résultat trouvé.</p>';
             document.getElementById('medianContainer').style.display = 'none';
         }
     });
+
 
 
 
