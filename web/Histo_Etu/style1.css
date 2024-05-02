@@ -1,0 +1,117 @@
+
+body{
+    background-image: url("weather_histo.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h2 {
+    font-weight: bold; /* Texte à l'intérieur de <h2> en gras */
+    unicode-bidi: isolate; /* Contrôle la direction du texte lors de l'imbrication */
+    background-color: rgba(67, 1, 1, 0.1);
+    color: rgba(0, 0, 0, .6);
+    border-radius: 6px 6px 0 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    padding: 20px 20px 12px;
+    text-transform: uppercase;
+    border: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+    text-align: center; /* Centre le texte */
+    margin-top: 30px; /* Augmente l'espace en haut */
+    margin-bottom: 10px; /* Augmente l'espace en bas */
+}
+
+.historique{
+    width: 100%; /* Pour que le contenu occupe toute la largeur disponible */
+    max-width: 600px; /* Largeur maximale du contenu */
+    padding: 20px; /* Ajouter un peu d'espace autour du contenu */
+}
+
+
+.termoEtu{
+    display: flex;
+    align-items: center; /* Aligner les éléments sur l'axe vertical */
+    margin-bottom: 20px; /* Ajouter de l'espace entre les divs */
+    border-radius: 6px; /* Arrondir les coins */
+    padding: 10px; /* Ajouter un espacement intérieur */
+    background-color: rgba(36, 1, 1, 0.1);
+
+}
+
+.date {
+    margin-right: 10px; /* Ajoute une marge à droite */
+    max-width: 58px; /* Limite la largeur maximale de la date */
+    overflow: hidden; /* Cache le texte dépassant */
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+    font-size: 12px;
+    margin-right: 20px;
+    min-width: 45px;
+    text-align: center;
+    white-space: nowrap;
+    color: #000;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.jour{
+    
+    color: rgba(0, 0, 0, 0.6); 
+    font-size: 12px; 
+
+}
+
+.température{
+    flex-grow: 1;
+    flex-shrink: 0;
+    margin-right: 12px;
+    min-width: 98px;
+    color: #000;
+    flex-shrink: 0;
+    font-size: 28px;
+    font-weight: 700;
+    margin-right: 4px;
+
+}
+
+.ventVitese{
+    font-size: 16px; 
+    color: rgba(0, 0, 0, 0.6); 
+
+}
+
+.description{
+    flex-grow: 1;
+    color: #000;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+.heure{ 
+    margin-left: auto;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.6); 
+    
+
+}
+
+.container {
+    display: flex;
+    justify-content: center; /* Centrer horizontalement */
+    
+   
+}   
+
+
