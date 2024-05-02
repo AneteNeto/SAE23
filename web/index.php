@@ -11,8 +11,8 @@
         <option value="fr">Français</option>
         <option value="en">English</option>
     </select>
-    <h1 data-translate="thermometer_title">Thermomètre des étudiants : </h1>
-    <h1 data-translate="specialite">BUT1 R&T</h1>
+        <h1 data-translate="thermometer_title">Thermomètre des étudiants : </h1>
+        <h1 data-translate="specialite">BUT1 R&T</h1>
     <div class="container">
     <form id="searchForm">
         <label for="cherche_nom" data-translate="nom">Nom:</label>
@@ -77,13 +77,23 @@ $result=mysqli_query($co,$query) or die ("erreur dans la requete $query");
     // afficher les résultats de la recherche
     var searchResultsContainer = document.getElementById('searchResults');
     searchResultsContainer.innerHTML = ''; // supprimer les resultats d'avant
-    
     if (filteredStudents.length > 0) {
     filteredStudents.forEach(function(students) {
         var studentInfo = '<div class="etudiant">' +
             '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
             '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + students.Prenom + ' ' + students.Nom + '</p>' +
             '<p><strong data-translate="groupe2">Groupe:</strong> ' + students.groupe + '</p>' +
+            '<div class="container" id="weatherContainer">' +
+                '<a href="">'+
+                    '<div><strong>Montbeliard</strong> <span id="res" style="display: none;">,France</span></div>'+
+                    '<div>Partiellement nuageux</div>'+
+                    '<div>'+
+                    '<img src="icone_weather.svg" width="32" height="32">'+
+                    '<span>21º<span>C</span></span>'+
+                    '</div>'+
+                    '<div>Vent  <span>8Km/h</span></div>'+
+                '<a/>'+
+             '</div>' +
             '<button onclick="showHistory(' + students.idE + ')" data-translate="voir_historique">Voir l\'historique</button>' +
             '<div id="historique-' + students.idE + '" style="display: none;">' +
             '<!-- Contenu de l\'historique de l\'étudiant -->' +

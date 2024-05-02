@@ -20,6 +20,7 @@ h2 {
     color: #34495e; /* couleur du texte "liste des etudiants*/
 }
 
+
 /* Container */
 .container {
     max-width: 800px;
@@ -98,6 +99,7 @@ button:hover {
     padding: 20px;
 }
 
+
 #group-list {
     padding: 0;
     margin: 0;
@@ -149,4 +151,22 @@ button:hover {
 
 #searchForm button:hover {
     background-color: #ff403d;
+}
+
+#weatherContainer {
+    background-color: rgba(0, 0, 0, 0.2); /* Couleur de fond */
+    width: 150px;
+    height: 100px;  
+    border-radius: 10px; /* Coins arrondis */
+    padding: 20px; /* Espacement intérieur */
+    margin-bottom: 20px; /* Marge en bas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre */
+    margin: 8px;
+    opacity: 1;
+    padding-bottom: 30px;
+    
+}
+#weatherContainer a {
+    text-decoration: none;
+    color:#22202a;
 }
