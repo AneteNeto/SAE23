@@ -159,10 +159,12 @@
                         '</div>'+
                         '<img class="icone" height="40" width="40" src="icon_meteo/'+data.Icone+'.png">'+
                         '<div class="temperature">'+
-                               ' <span>'+data.Temperature + '°C   </span>'+
+                               ' <span>'+data.Temperature + '°C  </span>'+
                                 '<span class="ventVitese">'+ data.VentVitesse +'Km/h</span>'+
                         '</div>'+
-                        
+                        '<div class="nomdeville">'+
+                            '<p>'+data.Ville +'</p>'+
+                        '</div>'+
                         '<div class="heure">'+date_time.toLocaleTimeString()+'</div>'+
                   '</div></div></div></div>';
             });
