@@ -101,14 +101,26 @@
             // Afficher les informations des étudiants filtrés
             filteredStudents.forEach(function(student) {
                 var studentInfo = '<div class="etudiant">' +
-                    '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
-                    '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.Prenom + ' ' + student.Nom + '</p>' +
-                    '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>' +
-                    '<button class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>' +
-                    '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;">' +
-                    '<!-- Contenu de l\'historique de l\'étudiant -->' +
-                    '</div>' +
-                    '</div>';
+                '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
+                '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.Prenom + ' ' + student.Nom + '</p>' +
+                '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>' +
+                 '<div class="container" id="weatherContainer">' +
+                '<a href="">' +
+                '<div><strong>Montbeliard</strong> <span id="res" style="display: none;">,France</span></div>' +
+                '<div>Partiellement nuageux</div>' +
+                '<div>' +
+                '<img src="icone_weather.svg" width="32" height="32">' +
+                '<span>21º<span>C</span></span>' +
+                '</div>' +
+                '<div>Vent <span>8Km/h</span></div>' +
+                '</a>' +
+                '</div>' +
+                '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;">' +
+                '<!-- Contenu de l\'historique de l\'étudiant -->' +
+                '</div>' +
+                '<button class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>' +
+                '</div>';
+
                 searchResultsContainer.innerHTML += studentInfo;
             });
             document.getElementById('medianContainer').style.display = 'block';
@@ -178,31 +190,6 @@
   
 
 
-        $(document).ready(function() {
-        // Ajouter un event listener pour soumettre le formulaire de recherche
-        $('#searchForm').submit(function(event) {
-            event.preventDefault(); // Empêcher la soumission du formulaire
-
-            var formData = $(this).serialize(); // Sérialiser les données du formulaire
-
-            // Effectuer une requête AJAX pour récupérer les températures médianes du groupe
-            $.ajax({
-                url: 'temperatures.php',
-                type: 'POST',
-                data: formData,
-                dataType: 'json',
-                success: function(data) {
-                    // Afficher les températures médianes du groupe
-                    var medianTemperature = data[Object.keys(data)[0]]; // Récupérer la première valeur de l'objet JSON
-                    $('#medianTemperature').text(medianTemperature + ' °C'); // Afficher la température médiane avec l'unité
-                    $('#medianContainer').show(); // Afficher le conteneur de la température médiane
-                },
-                error: function(xhr, status, error) {
-                    console.error(error); // Afficher les erreurs dans la console
-                }
-            });
-        });
-    });
     </script>
 </body>
 </html>
