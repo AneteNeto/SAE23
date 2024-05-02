@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-translate="thermometer_title">Thermomètre des étudiants</title>
+    <link rel="shortcut icon" type="image/png" href="icon.png"/>
+    <title data-translate="thermometer_title">ThermoRT</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
