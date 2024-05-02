@@ -15,17 +15,17 @@ function queryetudiant($pdo){
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 // QUERY HISTORIQUE
-function queryHistorique($pdo, string $nom="",?string $prenom="") {
-    $sql = "SELECT E.Nom, E.Prenom, R.Ville, M.Description, M.Temperature,
+function queryHistorique($pdo, int $id) {
+    $sql = "SELECT R.Ville, M.Description, M.Temperature,
     M.VentVitesse, M.Icone, M.Date 
     FROM Mesure AS M 
     JOIN Residence AS R ON M.IdR = R.IdR 
     JOIN Etudiant AS E ON R.IdR IN (E.VilleDomicileP, E.VilleDomicileS)
-    WHERE E.Nom = :nom AND E.Prenom = :prenom
+    WHERE E.idE = :id
     ORDER BY Date DESC";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['nom' => $nom, 'prenom' => $prenom]);
+    $stmt->execute(['id' =>$id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -36,10 +36,11 @@ function queryInformationJour($pdo, string $nom="",?string $prenom="") {
             FROM Mesure AS M 
             JOIN Residence AS R ON M.IdR = R.IdR 
             JOIN Etudiant AS E ON R.IdR IN (E.VilleDomicileP, E.VilleDomicileS)
-            WHERE (E.Nom = :nom OR E.Prenom =:prenom) AND DATE(M.Date) = CURRENT_DATE";
+            WHERE E.idE = :id 
+            AND DATE(M.Date) = CURRENT_DATE";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['nom' => $nom, 'prenom' => $prenom]);
+    $stmt->execute(['id' =>$id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -55,19 +56,8 @@ function queryAverageGroupe($pdo,string $groupe) {
     $stmt->execute(['groupe' => $groupe]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
-/*
-        require "../Source/Core/Query.php";
-        $students=queryEtudiant($pdo);
-
-        var_dump($students);
-        /*$historique=queryHistorique($pdo,"IDIRI","Anas");
-        $jour=queryInformationJour($pdo,"IDIRI","Anas");
-        echo "================HISTORIQUE====================<br>";
-        var_dump($historique);
-        echo "==================JOUR==================<br>";
-        var_dump($jour);
-        echo "===================AAVERAGE=================<br>";
-        var_dump(queryAverageGroupe($pdo,"GB2"));*/
-
 ?>
+
+
+  
+
