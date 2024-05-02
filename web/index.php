@@ -15,7 +15,6 @@
     <h1 data-translate="specialite">BUT1 R&T</h1>
     <div class="container">
         <form id="searchForm" action="" method="post">   <!-- formulaire de la barre de recherche -->
-        <form id="searchForm" action="" method="post">   <!-- formulaire de la barre de recherche -->
             <label for="cherche_nom" data-translate="nom">Nom:</label>
             <input type="text" id="cherche_nom" name="nom" placeholder="...">
             
@@ -42,28 +41,14 @@
    
 
     <!-- data -->
-    <?php
-    $students = [];
-    $SERVEUR="mysql_serv";
-    $LOGIN="adbneto";
-    $PASSW="adbneto-rt2023";
-    $BD="adbneto_05";
-
-    $co=mysqli_connect($SERVEUR,$LOGIN,$PASSW,$BD)or die("Unable to connect");
-    $query="SELECT * FROM Etudiant";
-    $result=mysqli_query($co,$query) or die ("erreur dans la requete $query");
-    while($row=mysqli_fetch_assoc($result)){
-        $students []=$row;
-    }
-
-    $result=mysqli_query($co,$query) or die ("erreur dans la requete $query");
-    
-
-
-
-    
+     <!-- data -->
+   <?php
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+        require "../Source/Core/Query.php";
+        $students=queryetudiant($pdo);
+        $historique=queryHistorique($pdo,1);
     ?>
-
     
 
     <!-- Inclusion des scripts JavaScript pour la traduction et le changement de langue -->
@@ -89,7 +74,7 @@
         var prenom = document.getElementById('cherche_prenom').value.trim().toLowerCase();
         var groupe = document.getElementById('cherche_groupe').value.trim().toLowerCase();
 
-        var filteredStudents = <?php echo ($students); ?>.filter(function(student) {
+        var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
             var nomMatch = (nom === '' || student.Nom.toLowerCase().includes(nom));
             var prenomMatch = (prenom === '' || student.Prenom.toLowerCase().includes(prenom));
             var groupeMatch = (groupe === '' || student.groupe.toLowerCase().includes(groupe));
@@ -159,17 +144,27 @@
             var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
             historiqueData.forEach(function(data, index) {
                 historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
-                historiqueHTML += '<p><strong>' + data.date + ':</strong> ' +
-                '<span data-translate="temperature">Température:</span> ' + data.ville1.temperature + '°C, ' +
-                '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.ville1.vitesseVent + ' km/h' +
-                ' ('+data.ville1.VilleDomicileP+')' +
-                '</p>';
-                historiqueHTML += '<p><strong>' + data.date + ':</strong> ' +
-                '<span data-translate="temperature">Température:</span> ' + data.ville2.temperature + '°C, ' +
-                '<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.ville2.vitesseVent + ' km/h' +
-                ' ('+data.ville2.VilleDomicileS+')' +
-                '</p>';
-                historiqueHTML += '</div>';
+                //historiqueHTML += '<p><strong>' + data.Date + ':</strong> ' +
+                //'<span data-translate="temperature">Température:</span> ' + data.Temperature + '°C, ' +
+                //'<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.VentVitesse + ' km/h' +
+                //' ('+data.Ville+')' +
+                //'</p>';
+                let date_time = new Date(data.Date);
+                historiqueHTML +='<div class="container-histo">'+
+                '<div class="historique">'+
+                '<div class="termoEtu">'+
+                        '<div class="date" style="width: 58px;">'+
+                            '<p>'+date_time.toLocaleDateString('fr-FR', { weekday: 'long' })+'</p>'+
+                            '<p class="jour">'+date_time.toLocaleDateString()+'</p>'+
+                        '</div>'+
+                        '<img class="icone" height="40" width="40" src="icon_meteo/'+data.Icone+'.png">'+
+                        '<div class="temperature">'+
+                               ' <span>'+data.Temperature + '°C   </span>'+
+                                '<span class="ventVitese">'+ data.VentVitesse +'Km/h</span>'+
+                        '</div>'+
+                        
+                        '<div class="heure">'+date_time.toLocaleTimeString()+'</div>'+
+                  '</div></div></div></div>';
             });
             // Afficher l'historique dans le conteneur
             historiqueContainer.innerHTML = historiqueHTML;
