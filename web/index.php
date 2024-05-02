@@ -87,7 +87,7 @@
         searchResultsContainer.innerHTML = ''; // Supprimer les résultats précédents
 
         if (filteredStudents.length > 0) {
-            // Afficher les informations des étudiants filtrés
+            // les informations des étudiants filtrés
             filteredStudents.forEach(function(student) {
     var studentInfo = '<div class="etudiant">' +
         '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
@@ -102,9 +102,8 @@
         var temperatures = student.Temperatures.split(',');
         var vitesseVents = student.VitesseVents.split(',');
 
-        weatherInfo += '<div class="weather-container">' + // Start of weather container
-            '<div class="weather-info-wrapper">'; // Start of weather info wrapper
-
+        weatherInfo += '<div class="weather-container">' + 
+            '<div class="weather-info-wrapper">'; 
         for (var i = 0; i < villes.length; i++) {
             weatherInfo += '<div class="weather-info">' +
                 '<div class="nomdeville">' + '<p>' + villes[i] + '</p>' +
@@ -116,8 +115,8 @@
                 '</div>';
         }
 
-        weatherInfo += '</div>' + // End of weather info wrapper
-            '</div>'; // End of weather container
+        weatherInfo += '</div>' + 
+            '</div>'; 
     }
 
     var historyButton = '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;"></div>' +
