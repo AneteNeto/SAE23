@@ -179,27 +179,6 @@ abstract class Model
     }
 
     /**
-     * @param string $params
-     * @return Model
-     */
-    public function leftJoin(string $params): Model
-    {
-        $this->join .= " LEFT JOIN {$params}";
-        return $this;
-    }
-
-    /**
-     * @param string $params
-     * @return Model
-     */
-    public function rightJoin(string $params): Model
-    {
-        $this->join .= " RIGHT JOIN {$params}";
-        return $this;
-    }
-
-
-    /**
      * @param string $terms
      * @param string $params
      * @return Model
