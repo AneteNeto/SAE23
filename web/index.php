@@ -43,9 +43,7 @@
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
         require "../Source/Core/Query.php";
-        $students=queryetudiant($pdo);
-        $historique=queryHistorique($pdo,1);
-       
+        $students=queryetudiant();  
     ?>
     
 
@@ -54,6 +52,7 @@
     <script src="scripts/translations_en.js"></script>
     <script src="scripts/translate.js"></script>
     <script src="scripts/language.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
       
@@ -157,7 +156,7 @@ if (student.Villes && student.Icones) {
         /*** Afficher l'historique pour chaque etudiant ***/
 
         // Fonction pour alterner l'affichage de l'historique
-        function toggleHistory(studentId) {
+        /*function toggleHistory(studentId) {
             var historiqueContainer = document.getElementById('historique-' + studentId);
             if (historiqueContainer.style.display === 'block') {
                 historiqueContainer.style.display = 'none';
@@ -205,7 +204,65 @@ if (student.Villes && student.Icones) {
             historiqueContainer.innerHTML = historiqueHTML;
             // Afficher le conteneur d'historique s'il est caché
             historiqueContainer.style.display = 'block';
-        }
+        }*/
+
+document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('voir-historique')) {
+        var studentId = event.target.getAttribute('data-student-id');
+        var historiqueContainer = document.getElementById('historique-' +studentId);
+        console.log("ENTROOOOOOOOO");
+        if (historiqueContainer.style.display === 'block') {
+            historiqueContainer.style.display = 'none';
+        } else {
+            jQuery.ajax({
+            type: "POST",
+            url: '../Source/api/api.php',
+            dataType: 'json',
+            data: {
+                function_name: 'get-historique',
+                arguments: {
+                    studentId,
+                }
+            },
+        
+            success: function (obj, textstatus) {
+                if (!('error' in obj)) {
+                var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
+        
+                obj.result.forEach(function (data,index) {
+                    historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
+                    let date_time = new Date(data.Date);
+                    historiqueHTML += '<div class="container-histo">' +
+                        '<div class="historique">' +
+                        '<div class="termoEtu">' +
+                        '<div class="date" style="width: 58px;">' +
+                        '<p>' + date_time.toLocaleDateString('fr-FR', { weekday: 'long' }) + '</p>' +
+                        '<p class="jour">' + date_time.toLocaleDateString() + '</p>' +
+                        '</div>' +
+                        '<img class="icone" height="40" width="40" src="icon_meteo/' + data.Icone + '.png">' +
+                        '<div class="temperature">' +
+                        ' <span>' + data.Temperature + '°C</span>' +
+                        '<span class="ventVitese">' + data.VentVitesse + 'Km/h</span>' +
+                        '</div>' +
+                        '<div class="description">' +
+                        '<p>' + data.Ville+ '</p>' +
+                        '</div>' +
+                        '<div class="heure">' + date_time.toLocaleTimeString() + '</div>' +
+                        '</div></div></div></div>';
+                })
+                    // Afficher l'historique dans le conteneur
+                    historiqueContainer.innerHTML = historiqueHTML;
+                    // Afficher le conteneur d'historique s'il est caché
+                    historiqueContainer.style.display = 'block';
+                }
+                else {
+                console.log(obj.error);
+                }
+            }
+            });
+        }   
+    }
+  });
     </script>
 </body>
 </html>
