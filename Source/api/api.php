@@ -21,9 +21,9 @@ if (!isset($aResult['error'])) {
       case 'get-historique':
         $aResult['result'] = queryHistorique($_POST['arguments']['studentId']);
         break;
-        case 'get-average':
-          $aResult['result'] = queryAverageGroupe($_POST['arguments']['groupe']);
-          break;
+      case 'get-average':
+        $aResult['result'] = queryAverageGroupe($_POST['arguments']['groupe']);
+        break;
     default:
       $aResult['error'] = 'Not found function!';
       break;

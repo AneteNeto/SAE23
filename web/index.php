@@ -70,6 +70,7 @@
 
         
 
+
         var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
             var nomMatch = (nom === '' || student.Nom.toLowerCase().includes(nom));
             var prenomMatch = (prenom === '' || student.Prenom.toLowerCase().includes(prenom));
@@ -78,6 +79,39 @@
             
 
         });
+    
+        if(groupe!==''){
+            console.log("GROUUUPE"+groupe);
+            jQuery.ajax({
+            type: "POST",
+            url: '../Source/api/api.php',
+            dataType: 'json',
+            data: {
+                function_name:'get-average',
+                arguments: {
+                    groupe
+                }
+            },
+
+            success: function (obj, textstatus) {
+                if (!('error' in obj)) {
+                    var average = document.getElementById('medianTemperature');
+                    average.innerHTML = ''; // Supprimer les résultats précédents
+
+                    var medianContainer = document.getElementById('medianContainer');
+                    medianContainer.style.display = 'block';
+
+                    obj.result.forEach(function (data) {
+                    average.innerHTML=Math.round(data.M_Temp)+'-'+Math.round(data.M_Vent);
+                    });
+                }
+                else {
+                    console.log(obj.error);
+                }
+            }
+  });
+      }
+
 
         // À l'intérieur de la fonction de gestion de la soumission du formulaire
 
@@ -143,7 +177,6 @@ if (student.Villes && student.Icones) {
 
 
             document.getElementById('medianContainer').style.display = 'block';
-            updateMedianTemperature(filteredStudents); // Calculer et afficher la température médiane
         } else {
             searchResultsContainer.innerHTML = '<p data-translate="aucun_resultat">Aucun résultat trouvé.</p>';
             document.getElementById('medianContainer').style.display = 'none';
@@ -210,7 +243,6 @@ document.addEventListener('click', function (event) {
     if (event.target.classList.contains('voir-historique')) {
         var studentId = event.target.getAttribute('data-student-id');
         var historiqueContainer = document.getElementById('historique-' +studentId);
-        console.log("ENTROOOOOOOOO");
         if (historiqueContainer.style.display === 'block') {
             historiqueContainer.style.display = 'none';
         } else {
@@ -227,7 +259,7 @@ document.addEventListener('click', function (event) {
         
             success: function (obj, textstatus) {
                 if (!('error' in obj)) {
-                var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
+                var historiqueHTML = '<h3 data-translate="historique"></h3>';
         
                 obj.result.forEach(function (data,index) {
                     historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
