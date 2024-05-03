@@ -98,6 +98,7 @@
                 if (!('error' in obj)) {
                     var average = document.getElementById('medianTemperature');
                     average.style.display = 'block';    
+                    console.log("ENTROOOO GROUUUPE");
                     average.innerHTML = ''; // Supprimer les résultats précédents
                     var medianContainer = document.getElementById('medianContainer');
                     medianContainer.style.display = 'block';
