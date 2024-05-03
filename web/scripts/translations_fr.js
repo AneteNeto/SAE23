@@ -1,8 +1,6 @@
 //script pour traduire en francais
 var translations = {
     "list_etudiants": "Liste des étudiants",
-    "residence": "Résidence principale",
-    "residence_secondaire": "Résidence secondaire",
     "temperature": "Température:",
     "group_temperature": "Température médiane du groupe",
     "median_temperature": "Température actuelle",

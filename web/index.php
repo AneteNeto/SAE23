@@ -227,7 +227,7 @@ document.addEventListener('click', function (event) {
         
             success: function (obj, textstatus) {
                 if (!('error' in obj)) {
-                var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
+                var historiqueHTML = '<h3 data-translate="historique"></h3>';
         
                 obj.result.forEach(function (data,index) {
                     historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
