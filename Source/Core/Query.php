@@ -54,7 +54,7 @@ function queryInformationJour(int $id) {
 // QUERY AVERAGE GROUPE
 function queryAverageGroupe(string $groupe) {
     $pdo=Connect::getInstance();
-    $sql = "SELECT AVG(M.Temperature) AS M_Temp, AVG(M.VentVitesse) AS M_Vent
+    $sql = "SELECT AVG(M.Temperature) AS M_Temp
             FROM Mesure AS M 
             JOIN Residence AS R ON M.IdR = R.IdR 
             JOIN Etudiant AS E ON R.IdR IN (E.VilleDomicileP, E.VilleDomicileS)

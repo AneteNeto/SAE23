@@ -34,7 +34,8 @@
 
         <div class="container" id="medianContainer" style="display: none;">
         <h2 data-translate="group_temperature">Température médiane du groupe</h2>
-            <p id="medianTemperature">-</p>
+        <img class="icone" height="40" width="40" src="icon/meteo.png">
+            <span id="medianTemperature">-</span>
         </div>
     
 
@@ -102,7 +103,7 @@
                     medianContainer.style.display = 'block';
 
                     obj.result.forEach(function (data) {
-                    average.innerHTML=Math.round(data.M_Temp)+'-'+Math.round(data.M_Vent);
+                    average.innerHTML=Math.round(data.M_Temp)+'°C';
                     });
                 }
                 else {
@@ -273,7 +274,7 @@ document.addEventListener('click', function (event) {
                         '</div>' +
                         '<img class="icone" height="40" width="40" src="icon_meteo/' + data.Icone + '.png">' +
                         '<div class="temperature">' +
-                        ' <span>' + data.Temperature + '°C</span>' +
+                        '<span>' + data.Temperature + '°C</span>' +
                         '<span class="ventVitese">' + data.VentVitesse + 'Km/h</span>' +
                         '</div>' +
                         '<div class="description">' +
