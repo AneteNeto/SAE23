@@ -31,7 +31,7 @@ h2 {
 /* liste etudiants */
 .etudiant {
     
-    background-image: url("weather_histo.jpg");
+    background-image: url("icon/weather_histo.jpg");
     background-size: cover;
     text-align: center;
 
