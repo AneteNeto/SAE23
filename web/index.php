@@ -97,21 +97,23 @@
             success: function (obj, textstatus) {
                 if (!('error' in obj)) {
                     var average = document.getElementById('medianTemperature');
+                    average.style.display = 'block';    
                     average.innerHTML = ''; // Supprimer les résultats précédents
-
                     var medianContainer = document.getElementById('medianContainer');
                     medianContainer.style.display = 'block';
 
                     obj.result.forEach(function (data) {
-                    average.innerHTML=Math.round(data.M_Temp)+'°C';
+                    average.innerHTML=(data.M_Temp)?Math.round(data.M_Temp)+'°C':'';
                     });
                 }
                 else {
                     console.log(obj.error);
                 }
             }
-  });
-      }
+            });
+        }else{
+            document.getElementById('medianTemperature').style.display = 'none';
+        }
 
 
         // À l'intérieur de la fonction de gestion de la soumission du formulaire
