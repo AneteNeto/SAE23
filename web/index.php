@@ -33,7 +33,7 @@
         </div>
 
         <div class="container" id="medianContainer" style="display: none;">
-        <h2 data-translate="group_temperature">Température médiane du groupe :</h2>
+        <h2 data-translate="group_temperature">Température médiane du groupe</h2>
             <p id="medianTemperature">-</p>
         </div>
     

@@ -4,7 +4,7 @@ var translations = {
     "residence": "Primary residence",
     "residence_secondaire": "Secondary residence",
     "temperature": "Temperature:",
-    "group_temperature": "Group Median temperature:",
+    "group_temperature": "Group Median temperature",
     "thermometer_title": " Students thermometer : ",
     "groupe_etudiant": "Group",
     "voir_historique": "View history",
