@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-translate="thermometer_title">Thermomètre des étudiants</title>
+    <link rel="shortcut icon" type="image/png" href="icon/icon.png"/>
+    <title data-translate="thermometer_title">ThermoRT</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -32,22 +33,18 @@
         </div>
 
         <div class="container" id="medianContainer" style="display: none;">
-        <h2 data-translate="group_temperature">Température médiane du groupe :</h2>
-            <p id="medianTemperature">-</p>
+        <h2 data-translate="group_temperature">Température médiane du groupe</h2>
+        <img class="icone" height="40" width="40" src="icon/meteo.png">
+            <span id="medianTemperature">-</span>
         </div>
     
-   
-
-   
 
     <!-- data -->
-     <!-- data -->
    <?php
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
         require "../Source/Core/Query.php";
-        $students=queryetudiant($pdo);
-        $historique=queryHistorique($pdo,1);
+        $students=queryetudiant();  
     ?>
     
 
@@ -56,8 +53,7 @@
     <script src="scripts/translations_en.js"></script>
     <script src="scripts/translate.js"></script>
     <script src="scripts/language.js"></script>
-     <!-- Inclusion de jQuery pour faciliter les requêtes AJAX -->
-     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
       
@@ -69,50 +65,124 @@
     // Ajouter un event listener pour soumettre le formulaire de recherche
     document.getElementById('searchForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Empêcher la soumission du formulaire
-
         var nom = document.getElementById('cherche_nom').value.trim().toLowerCase();
         var prenom = document.getElementById('cherche_prenom').value.trim().toLowerCase();
         var groupe = document.getElementById('cherche_groupe').value.trim().toLowerCase();
+
+        
+
 
         var filteredStudents = <?php echo json_encode($students); ?>.filter(function(student) {
             var nomMatch = (nom === '' || student.Nom.toLowerCase().includes(nom));
             var prenomMatch = (prenom === '' || student.Prenom.toLowerCase().includes(prenom));
             var groupeMatch = (groupe === '' || student.groupe.toLowerCase().includes(groupe));
             return nomMatch && prenomMatch && groupeMatch;
+            
+
         });
+    
+        if(groupe!==''){
+            console.log("GROUUUPE"+groupe);
+            jQuery.ajax({
+            type: "POST",
+            url: '../Source/api/api.php',
+            dataType: 'json',
+            data: {
+                function_name:'get-average',
+                arguments: {
+                    groupe
+                }
+            },
+
+            success: function (obj, textstatus) {
+                if (!('error' in obj)) {
+                    var average = document.getElementById('medianTemperature');
+                    average.innerHTML = ''; // Supprimer les résultats précédents
+
+                    var medianContainer = document.getElementById('medianContainer');
+                    medianContainer.style.display = 'block';
+
+                    obj.result.forEach(function (data) {
+                    average.innerHTML=Math.round(data.M_Temp)+'°C';
+                    });
+                }
+                else {
+                    console.log(obj.error);
+                }
+            }
+  });
+      }
+
+
+        // À l'intérieur de la fonction de gestion de la soumission du formulaire
+
+
 
         var searchResultsContainer = document.getElementById('searchResults');
         searchResultsContainer.innerHTML = ''; // Supprimer les résultats précédents
+
         if (filteredStudents.length > 0) {
-            // Afficher les informations des étudiants filtrés
+            // les informations des étudiants filtrés
             filteredStudents.forEach(function(student) {
-                var studentInfo = '<div class="etudiant">' +
-                '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
-                '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.Prenom + ' ' + student.Nom + '</p>' +
-                '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>' +
-                 '<div class="container" id="weatherContainer">' +
-                '<a href="">' +
-                '<div><strong>Montbeliard</strong> <span id="res" style="display: none;">,France</span></div>' +
-                '<div>Partiellement nuageux</div>' +
-                '<div>' +
-                '<img src="icone_weather.svg" width="32" height="32">' +
-                '<span>21º<span>C</span></span>' +
-                '</div>' +
-                '<div>Vent <span>8Km/h</span></div>' +
-                '</a>' +
-                '</div>' +
-                '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;">' +
-                '</div>' +
-                '<button class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>' +
-                '</div>';
-                searchResultsContainer.innerHTML += studentInfo;
-            });
+    var studentInfo = '<div class="etudiant">' +
+        '<h2 data-translate="info">Informations sur l\'étudiant</h2>' +
+        '<p><strong data-translate="nom2">Nom de l\'étudiant:</strong> ' + student.Prenom + ' ' + student.Nom + '</p>' +
+        '<p><strong data-translate="groupe2">Groupe:</strong> ' + student.groupe + '</p>';
+
+    // Ajouter les informations météorologiques de l'étudiant
+    var weatherInfo = '';
+if (student.Villes && student.Icones) {
+    var villesSet = new Set(); // Créer un ensemble pour stocker les villes uniques
+    var villes = student.Villes.split(',');
+    var icones = student.Icones.split(',');
+    var temperatures = student.Temperatures.split(',');
+    var vitesseVents = student.VitesseVents.split(',');
+
+    for (var i = 0; i < villes.length; i++) {
+        villesSet.add(villes[i]); // Ajouter la ville à l'ensemble
+    }
+
+    weatherInfo += '<div class="weather-container">' + 
+        '<div class="weather-info-wrapper">'; 
+
+    // Parcourir l'ensemble des villes uniques
+    villesSet.forEach(function(ville) {
+        var indexVille = villes.indexOf(ville);
+        var iconeVille = icones[indexVille];
+        var temperatureVille = temperatures[indexVille];
+        var vitesseVentVille = vitesseVents[indexVille];
+
+        weatherInfo += '<div class="weather-info">' +
+            '<div class="nomdeville">' + '<p>' + ville + '</p>' +
+            '<div>' +
+            '<img class="icone" height="40" width="40" src="icon_meteo/' + iconeVille + '.png">' +
+            ' <span>' + temperatureVille + '°C  </span>' +
+            '</div>' +
+            '<span class="ventVitese">' + vitesseVentVille + 'Km/h</span>' +
+            '</div>';
+    });
+
+    weatherInfo += '</div>' + 
+        '</div>'; 
+}
+
+
+    var historyButton = '<div class="historique-container" id="historique-' + student.idE + '" style="display: none;"></div>' +
+        '<button class="voir-historique" data-student-id="' + student.idE + '" data-translate="voir_historique">Voir l\'historique</button>';
+
+    var studentHTML = studentInfo + weatherInfo + historyButton + '</div>';
+
+    // Ajouter les informations de l'étudiant au conteneur de résultats de recherche
+    searchResultsContainer.innerHTML += studentHTML;
+});
+
+
             document.getElementById('medianContainer').style.display = 'block';
-            updateMedianTemperature(filteredStudents); // Calculer et afficher la température médiane
         } else {
             searchResultsContainer.innerHTML = '<p data-translate="aucun_resultat">Aucun résultat trouvé.</p>';
             document.getElementById('medianContainer').style.display = 'none';
         }
+
     });
 
 
@@ -120,7 +190,7 @@
         /*** Afficher l'historique pour chaque etudiant ***/
 
         // Fonction pour alterner l'affichage de l'historique
-        function toggleHistory(studentId) {
+        /*function toggleHistory(studentId) {
             var historiqueContainer = document.getElementById('historique-' + studentId);
             if (historiqueContainer.style.display === 'block') {
                 historiqueContainer.style.display = 'none';
@@ -144,11 +214,6 @@
             var historiqueHTML = '<h3 data-translate="historique">Historique des données:</h3>';
             historiqueData.forEach(function(data, index) {
                 historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
-                //historiqueHTML += '<p><strong>' + data.Date + ':</strong> ' +
-                //'<span data-translate="temperature">Température:</span> ' + data.Temperature + '°C, ' +
-                //'<span data-translate="vitesse_vent">Vitesse du vent:</span> ' + data.VentVitesse + ' km/h' +
-                //' ('+data.Ville+')' +
-                //'</p>';
                 let date_time = new Date(data.Date);
                 historiqueHTML +='<div class="container-histo">'+
                 '<div class="historique">'+
@@ -159,18 +224,78 @@
                         '</div>'+
                         '<img class="icone" height="40" width="40" src="icon_meteo/'+data.Icone+'.png">'+
                         '<div class="temperature">'+
-                               ' <span>'+data.Temperature + '°C   </span>'+
+                               ' <span>'+data.Temperature + '°C  </span>'+
                                 '<span class="ventVitese">'+ data.VentVitesse +'Km/h</span>'+
                         '</div>'+
-                        
+                        '<div class="nomdeville">'+
+                            '<p>'+data.Ville +'</p>'+
+                        '</div>'+
                         '<div class="heure">'+date_time.toLocaleTimeString()+'</div>'+
                   '</div></div></div></div>';
             });
+
             // Afficher l'historique dans le conteneur
             historiqueContainer.innerHTML = historiqueHTML;
             // Afficher le conteneur d'historique s'il est caché
             historiqueContainer.style.display = 'block';
-        }
+        }*/
+
+document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('voir-historique')) {
+        var studentId = event.target.getAttribute('data-student-id');
+        var historiqueContainer = document.getElementById('historique-' +studentId);
+        if (historiqueContainer.style.display === 'block') {
+            historiqueContainer.style.display = 'none';
+        } else {
+            jQuery.ajax({
+            type: "POST",
+            url: '../Source/api/api.php',
+            dataType: 'json',
+            data: {
+                function_name: 'get-historique',
+                arguments: {
+                    studentId,
+                }
+            },
+        
+            success: function (obj, textstatus) {
+                if (!('error' in obj)) {
+                var historiqueHTML = '<h3 data-translate="historique"></h3>';
+        
+                obj.result.forEach(function (data,index) {
+                    historiqueHTML += '<div class="historiqueEntry" id="entry-' + index + '">';
+                    let date_time = new Date(data.Date);
+                    historiqueHTML += '<div class="container-histo">' +
+                        '<div class="historique">' +
+                        '<div class="termoEtu">' +
+                        '<div class="date" style="width: 58px;">' +
+                        '<p>' + date_time.toLocaleDateString('fr-FR', { weekday: 'long' }) + '</p>' +
+                        '<p class="jour">' + date_time.toLocaleDateString() + '</p>' +
+                        '</div>' +
+                        '<img class="icone" height="40" width="40" src="icon_meteo/' + data.Icone + '.png">' +
+                        '<div class="temperature">' +
+                        '<span>' + data.Temperature + '°C</span>' +
+                        '<span class="ventVitese">' + data.VentVitesse + 'Km/h</span>' +
+                        '</div>' +
+                        '<div class="description">' +
+                        '<p>' + data.Ville+ '</p>' +
+                        '</div>' +
+                        '<div class="heure">' + date_time.toLocaleTimeString() + '</div>' +
+                        '</div></div></div></div>';
+                })
+                    // Afficher l'historique dans le conteneur
+                    historiqueContainer.innerHTML = historiqueHTML;
+                    // Afficher le conteneur d'historique s'il est caché
+                    historiqueContainer.style.display = 'block';
+                }
+                else {
+                console.log(obj.error);
+                }
+            }
+            });
+        }   
+    }
+  });
     </script>
 </body>
 </html>

@@ -3,7 +3,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #ffffff; /* Fallback color */
+    background-color: #ccd6e3; /* Fallback color */
     background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%); /* Gradient background */
     background-size: cover;
 }
@@ -11,8 +11,8 @@ body {
 h1 {
     text-align: center;
     color: #34495e;
-    margin-top: 40px;
-    font-size: 34px;
+    margin-top: 30px;
+    font-size: 25px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ombre portée sur le texte */
 }
 
@@ -23,14 +23,37 @@ h2 {
 
 /* Container */
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
 }
+#medianContainer {
+    background-image: url("icon/weather_histo.jpg");
+    background-size: cover;
+    text-align: center;
+
+   
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease; /* Animation de transition */
+}
+
+#medianContainer span {
+    font-size: 35px;
+    
+}
+
 
 /* liste etudiants */
 .etudiant {
-    background-color: #f6eee7;
+    
+    background-image: url("icon/weather_histo.jpg");
+    background-size: cover;
+    text-align: center;
+
+   
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;
@@ -43,7 +66,7 @@ h2 {
 }
 
 .etudiant p {
-    color: #666;
+    color: #000000;
     margin: 10px 0;
 }
 
@@ -113,7 +136,7 @@ button:hover {
 
 #group-list li span {
     font-weight: bold;
-    color: #ff5733; /* Couleur du texte pour le nom du groupe */
+   
 }
 
 /* Styles pour le formulaire de recherche */
@@ -121,7 +144,7 @@ button:hover {
 #searchForm {
     margin-top: 20px;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8); /* Fond semi-transparent */
+    background-color: rgba(129, 148, 173, 0.8); /* Fond semi-transparent */
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -153,23 +176,51 @@ button:hover {
     background-color: #ff403d;
 }
 
-#weatherContainer {
-    background-color: rgba(0, 0, 0, 0.2); /* Couleur de fond */
-    width: 150px;
-    height: 100px;  
-    border-radius: 10px; /* Coins arrondis */
-    padding: 20px; /* Espacement intérieur */
-    margin-bottom: 10px; /* Marge en bas */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre */
+.weather-container {
+    background-color: rgba(0, 0, 0, 0.2);
+    width: auto;  
+    border-radius: 10px;
+    padding: 20px;
     margin: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     opacity: 1;
     padding-bottom: 30px;
-    
+    display: inline-block; /* Display weather containers inline */
 }
-#weatherContainer a {
+
+.weather-container a {
     text-decoration: none;
-    color:#22202a;
+    color: #22202a;
 }
+
+.weather-container .weather-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.weather-container .weather-info .city {
+    margin-bottom: 10px;
+}
+
+.weather-container .weather-info .city img {
+    height: 40px;
+    width: 40px;
+    margin-right: 5px;
+}
+
+.weather-container .weather-info .city .temperature {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.weather-container .weather-info .city .wind-speed {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    margin-top: 5px;
+}
+
+
 
 .historique{
     width: 100%; /* Pour que le contenu occupe toute la largeur disponible */
@@ -227,7 +278,7 @@ button:hover {
 
 }
 
-.description{
+.nomdeville{
     flex-grow: 1;
     color: #000;
     font-size: 16px;
