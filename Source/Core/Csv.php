@@ -14,6 +14,7 @@ class Csv {
     public function read() {
         $csv = fopen($this->filePath, "r");
         if ($csv) {
+            fgetcsv($csv, 1000, $this->separator);
             while (!feof($csv)) {
                 $row = fgetcsv($csv, 1000, $this->separator);
                 if (!empty($row)) {
